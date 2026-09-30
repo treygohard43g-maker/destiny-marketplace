@@ -573,15 +573,20 @@ h3 {
 ========================================================= */
 
 .mobile-menu {
-  display: none;
-
   position: fixed;
 
   top: var(--header-height);
   left: 0;
   right: 0;
 
-  z-index: 999;
+  z-index: 9999;
+
+  /*
+   * IMPORTANT:
+   * The menu is physically removed from the page
+   * until JavaScript adds .is-open.
+   */
+  display: none;
 
   background: rgba(252,250,245,.98);
 
@@ -600,6 +605,8 @@ h3 {
 }
 
 .mobile-menu.is-open {
+  display: block;
+
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -1765,9 +1772,12 @@ h3 {
     display: grid;
   }
 
-  .mobile-menu {
-    display: block;
-  }
+  /*
+   * DO NOT set .mobile-menu to display:block here.
+   *
+   * It stays display:none until JavaScript adds
+   * the .is-open class.
+   */
 
   .hero-grid {
     grid-template-columns: 1fr;
