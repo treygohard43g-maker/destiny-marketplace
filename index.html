@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -13,24 +12,13 @@
     content="Destiny Marketplace — Global products, digital exchange, seamless trade."
   >
 
-  <meta
-    name="theme-color"
-    content="#26352A"
-  >
+  <meta name="theme-color" content="#26352A">
 
   <title>Destiny Marketplace | Global Products. Digital Exchange.</title>
 
-  <!-- Google Fonts -->
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
@@ -44,77 +32,56 @@
   >
 
   <!-- Main stylesheet -->
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
   <!-- =====================================================
-       SITE HEADER
+       HEADER
   ====================================================== -->
 
   <header class="site-header">
 
     <div class="container header-inner">
 
-      <!-- Brand -->
       <a
         href="index.html"
         class="brand"
         aria-label="Destiny Marketplace home"
       >
-
-        <span class="brand-mark">
-          D
-        </span>
+        <span class="brand-mark">D</span>
 
         <span class="brand-text">
           <strong>Destiny</strong>
           <small>Marketplace</small>
         </span>
-
       </a>
 
 
-      <!-- Desktop Navigation -->
+      <!-- Desktop navigation -->
+
       <nav
         class="main-nav"
         aria-label="Main navigation"
       >
-
-        <a href="#shop">
-          Shop
-        </a>
-
-        <a href="#categories">
-          Categories
-        </a>
-
-        <a href="#gift-cards">
-          Gift Cards
-        </a>
-
-        <a href="#exchange">
-          Exchange
-        </a>
-
-        <a href="#bitcoin">
-          Bitcoin
-        </a>
-
+        <a href="#shop">Shop</a>
+        <a href="#categories">Categories</a>
+        <a href="#gift-cards">Gift Cards</a>
+        <a href="#exchange">Exchange</a>
+        <a href="#bitcoin">Bitcoin</a>
       </nav>
 
 
-      <!-- Header Actions -->
+      <!-- Header actions -->
+
       <div class="header-actions">
 
         <button
           class="icon-button"
+          id="searchButton"
           type="button"
-          aria-label="Search"
+          aria-label="Search marketplace"
         >
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
@@ -135,9 +102,11 @@
 
         <button
           class="menu-button"
+          id="menuButton"
           type="button"
           aria-label="Open navigation menu"
           aria-expanded="false"
+          aria-controls="mobileMenu"
         >
           <i class="fa-solid fa-bars"></i>
         </button>
@@ -146,16 +115,79 @@
 
     </div>
 
+
+    <!-- Mobile navigation -->
+
+    <div
+      class="mobile-menu"
+      id="mobileMenu"
+      aria-hidden="true"
+    >
+
+      <nav
+        class="mobile-menu-nav"
+        aria-label="Mobile navigation"
+      >
+
+        <a href="#shop">
+          <i class="fa-solid fa-store"></i>
+          <span>Shop</span>
+        </a>
+
+        <a href="#categories">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Categories</span>
+        </a>
+
+        <a href="#gift-cards">
+          <i class="fa-solid fa-gift"></i>
+          <span>Gift Cards</span>
+        </a>
+
+        <a href="#exchange">
+          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+          <span>Exchange</span>
+        </a>
+
+        <a href="#bitcoin">
+          <i class="fa-brands fa-bitcoin"></i>
+          <span>Bitcoin</span>
+        </a>
+
+        <div class="mobile-menu-divider"></div>
+
+        <a href="login.html">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span>Sign in</span>
+        </a>
+
+        <a
+          href="signup.html"
+          class="mobile-account-link"
+        >
+          <i class="fa-solid fa-user-plus"></i>
+          <span>Create account</span>
+        </a>
+
+      </nav>
+
+    </div>
+
   </header>
 
 
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
   <main>
 
-    <!-- =====================================================
-         HERO
-    ====================================================== -->
 
-    <section class="hero">
+    <!-- ===================================================
+         HERO
+    ==================================================== -->
+
+    <section class="hero reveal">
 
       <div class="container hero-grid">
 
@@ -194,7 +226,6 @@
 
           </div>
 
-
           <div class="hero-trust">
 
             <div class="trust-item">
@@ -220,19 +251,13 @@
         </div>
 
 
-        <!-- Hero Visual -->
         <div class="hero-visual">
 
           <div class="hero-card hero-card-main">
 
             <div class="hero-card-top">
-
-              <span>
-                DESTINY MARKETPLACE
-              </span>
-
+              <span>DESTINY MARKETPLACE</span>
               <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
             </div>
 
             <div class="hero-card-content">
@@ -242,23 +267,16 @@
               </span>
 
               <h2>
-                Products.
-                <br>
-                Exchange.
-                <br>
+                Products.<br>
+                Exchange.<br>
                 Access.
               </h2>
 
             </div>
 
             <div class="hero-card-footer">
-
-              <span>
-                Destiny Global Exchange
-              </span>
-
+              <span>Destiny Global Exchange</span>
               <i class="fa-solid fa-earth-africa"></i>
-
             </div>
 
           </div>
@@ -269,13 +287,8 @@
             <i class="fa-solid fa-bag-shopping"></i>
 
             <div>
-              <strong>
-                Shop globally
-              </strong>
-
-              <span>
-                From one marketplace
-              </span>
+              <strong>Shop globally</strong>
+              <span>From one marketplace</span>
             </div>
 
           </div>
@@ -287,12 +300,12 @@
     </section>
 
 
-    <!-- =====================================================
-         CATEGORY STRIP
-    ====================================================== -->
+    <!-- ===================================================
+         CATEGORIES
+    ==================================================== -->
 
     <section
-      class="category-strip"
+      class="category-strip reveal"
       id="categories"
     >
 
@@ -301,6 +314,7 @@
         <div class="section-heading compact-heading">
 
           <div>
+
             <span class="eyebrow dark-eyebrow">
               SHOP BY CATEGORY
             </span>
@@ -308,6 +322,7 @@
             <h2>
               Explore the marketplace
             </h2>
+
           </div>
 
           <a
@@ -325,7 +340,7 @@
 
           <a
             href="#shop"
-            class="category-card"
+            class="category-card reveal"
           >
 
             <div class="category-icon">
@@ -333,13 +348,8 @@
             </div>
 
             <div>
-              <h3>
-                Phones
-              </h3>
-
-              <p>
-                Smartphones & devices
-              </p>
+              <h3>Phones</h3>
+              <p>Smartphones & devices</p>
             </div>
 
             <i class="fa-solid fa-arrow-right category-arrow"></i>
@@ -349,7 +359,7 @@
 
           <a
             href="#shop"
-            class="category-card"
+            class="category-card reveal"
           >
 
             <div class="category-icon">
@@ -357,13 +367,8 @@
             </div>
 
             <div>
-              <h3>
-                Laptops
-              </h3>
-
-              <p>
-                Computers & technology
-              </p>
+              <h3>Laptops</h3>
+              <p>Computers & technology</p>
             </div>
 
             <i class="fa-solid fa-arrow-right category-arrow"></i>
@@ -373,7 +378,7 @@
 
           <a
             href="#shop"
-            class="category-card"
+            class="category-card reveal"
           >
 
             <div class="category-icon">
@@ -381,13 +386,8 @@
             </div>
 
             <div>
-              <h3>
-                SIM Cards
-              </h3>
-
-              <p>
-                International connectivity
-              </p>
+              <h3>SIM Cards</h3>
+              <p>International connectivity</p>
             </div>
 
             <i class="fa-solid fa-arrow-right category-arrow"></i>
@@ -397,7 +397,7 @@
 
           <a
             href="#gift-cards"
-            class="category-card"
+            class="category-card reveal"
           >
 
             <div class="category-icon">
@@ -405,13 +405,8 @@
             </div>
 
             <div>
-              <h3>
-                Gift Cards
-              </h3>
-
-              <p>
-                Digital cards & exchange
-              </p>
+              <h3>Gift Cards</h3>
+              <p>Digital cards & exchange</p>
             </div>
 
             <i class="fa-solid fa-arrow-right category-arrow"></i>
@@ -425,12 +420,12 @@
     </section>
 
 
-    <!-- =====================================================
-         FEATURED PRODUCTS
-    ====================================================== -->
+    <!-- ===================================================
+         PRODUCTS
+    ==================================================== -->
 
     <section
-      class="products-section"
+      class="products-section reveal"
       id="shop"
     >
 
@@ -465,13 +460,6 @@
         </div>
 
 
-        <!--
-          Product cards will eventually be generated
-          dynamically from Firestore.
-
-          Do not hard-code real inventory here.
-        -->
-
         <div
           class="product-grid"
           id="featuredProducts"
@@ -501,12 +489,12 @@
     </section>
 
 
-    <!-- =====================================================
+    <!-- ===================================================
          GIFT CARD EXCHANGE
-    ====================================================== -->
+    ==================================================== -->
 
     <section
-      class="exchange-section"
+      class="exchange-section reveal"
       id="exchange"
     >
 
@@ -519,8 +507,7 @@
           </span>
 
           <h2>
-            Turn eligible gift cards
-            into value.
+            Turn eligible gift cards into value.
           </h2>
 
           <p>
@@ -543,27 +530,17 @@
         <div class="exchange-panel">
 
           <div class="exchange-panel-header">
-
-            <span>
-              EXCHANGE PROCESS
-            </span>
-
+            <span>EXCHANGE PROCESS</span>
             <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
           </div>
 
 
           <div class="exchange-step">
 
-            <span class="step-number">
-              01
-            </span>
+            <span class="step-number">01</span>
 
             <div>
-              <strong>
-                Submit
-              </strong>
-
+              <strong>Submit</strong>
               <p>
                 Provide your card information and proof.
               </p>
@@ -574,15 +551,10 @@
 
           <div class="exchange-step">
 
-            <span class="step-number">
-              02
-            </span>
+            <span class="step-number">02</span>
 
             <div>
-              <strong>
-                Verification
-              </strong>
-
+              <strong>Verification</strong>
               <p>
                 Our team reviews the submitted card.
               </p>
@@ -593,15 +565,10 @@
 
           <div class="exchange-step">
 
-            <span class="step-number">
-              03
-            </span>
+            <span class="step-number">03</span>
 
             <div>
-              <strong>
-                Settlement
-              </strong>
-
+              <strong>Settlement</strong>
               <p>
                 Complete the exchange after approval.
               </p>
@@ -616,20 +583,64 @@
     </section>
 
 
-    <!-- =====================================================
-         GLOBAL COMMERCE
-    ====================================================== -->
+    <!-- ===================================================
+         GIFT CARDS ANCHOR
+    ==================================================== -->
 
-    <section class="global-section">
+    <section
+      class="gift-card-anchor reveal"
+      id="gift-cards"
+      aria-label="Gift card services"
+    >
+
+      <div class="container">
+
+        <div class="gift-card-anchor-inner">
+
+          <div>
+
+            <span class="eyebrow dark-eyebrow">
+              GIFT CARDS
+            </span>
+
+            <h2>
+              Buy and exchange eligible gift cards.
+            </h2>
+
+            <p>
+              Access available gift-card products and
+              exchange services through your account.
+            </p>
+
+          </div>
+
+          <a
+            href="gift-cards.html"
+            class="button button-outline"
+          >
+            View gift cards
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         GLOBAL
+    ==================================================== -->
+
+    <section class="global-section reveal">
 
       <div class="container global-grid">
 
         <div class="global-visual">
 
           <div class="global-circle">
-
             <i class="fa-solid fa-earth-africa"></i>
-
           </div>
 
           <span class="global-label global-label-one">
@@ -654,8 +665,7 @@
           </span>
 
           <h2>
-            Built for commerce
-            without borders.
+            Built for commerce without borders.
           </h2>
 
           <p>
@@ -672,10 +682,7 @@
               <i class="fa-solid fa-earth-americas"></i>
 
               <div>
-                <strong>
-                  International access
-                </strong>
-
+                <strong>International access</strong>
                 <span>
                   Designed for customers across different markets.
                 </span>
@@ -689,10 +696,7 @@
               <i class="fa-solid fa-wallet"></i>
 
               <div>
-                <strong>
-                  Multiple services
-                </strong>
-
+                <strong>Multiple services</strong>
                 <span>
                   Products, gift-card exchange and digital services.
                 </span>
@@ -706,10 +710,7 @@
               <i class="fa-solid fa-user-shield"></i>
 
               <div>
-                <strong>
-                  Account-based experience
-                </strong>
-
+                <strong>Account-based experience</strong>
                 <span>
                   Manage orders, exchanges and account information.
                 </span>
@@ -726,12 +727,12 @@
     </section>
 
 
-    <!-- =====================================================
-         BITCOIN SERVICES
-    ====================================================== -->
+    <!-- ===================================================
+         BITCOIN
+    ==================================================== -->
 
     <section
-      class="bitcoin-section"
+      class="bitcoin-section reveal"
       id="bitcoin"
     >
 
@@ -744,8 +745,7 @@
           </span>
 
           <h2>
-            Bitcoin services,
-            built into the marketplace.
+            Bitcoin services, built into the marketplace.
           </h2>
 
           <p>
@@ -755,7 +755,6 @@
           </p>
 
         </div>
-
 
         <a
           href="bitcoin.html"
@@ -770,11 +769,11 @@
     </section>
 
 
-    <!-- =====================================================
+    <!-- ===================================================
          HOW IT WORKS
-    ====================================================== -->
+    ==================================================== -->
 
-    <section class="how-section">
+    <section class="how-section reveal">
 
       <div class="container">
 
@@ -798,11 +797,9 @@
 
         <div class="steps-grid">
 
-          <div class="how-card">
+          <div class="how-card reveal">
 
-            <span class="how-number">
-              01
-            </span>
+            <span class="how-number">01</span>
 
             <i class="fa-solid fa-user-plus"></i>
 
@@ -811,18 +808,16 @@
             </h3>
 
             <p>
-              Set up your Destiny Marketplace account
-              to access shopping and exchange services.
+              Set up your Destiny Marketplace account to
+              access shopping and exchange services.
             </p>
 
           </div>
 
 
-          <div class="how-card">
+          <div class="how-card reveal">
 
-            <span class="how-number">
-              02
-            </span>
+            <span class="how-number">02</span>
 
             <i class="fa-solid fa-cart-shopping"></i>
 
@@ -838,11 +833,9 @@
           </div>
 
 
-          <div class="how-card">
+          <div class="how-card reveal">
 
-            <span class="how-number">
-              03
-            </span>
+            <span class="how-number">03</span>
 
             <i class="fa-solid fa-circle-check"></i>
 
@@ -864,11 +857,11 @@
     </section>
 
 
-    <!-- =====================================================
+    <!-- ===================================================
          FINAL CTA
-    ====================================================== -->
+    ==================================================== -->
 
-    <section class="final-cta">
+    <section class="final-cta reveal">
 
       <div class="container final-cta-inner">
 
@@ -879,8 +872,7 @@
           </span>
 
           <h2>
-            Your next transaction
-            starts here.
+            Your next transaction starts here.
           </h2>
 
           <p>
@@ -927,7 +919,6 @@
 
       <div class="footer-grid">
 
-        <!-- Brand -->
         <div class="footer-brand">
 
           <a
@@ -935,9 +926,7 @@
             class="brand footer-logo"
           >
 
-            <span class="brand-mark">
-              D
-            </span>
+            <span class="brand-mark">D</span>
 
             <span class="brand-text">
               <strong>Destiny</strong>
@@ -958,84 +947,39 @@
         </div>
 
 
-        <!-- Marketplace -->
         <div class="footer-column">
 
-          <h3>
-            Marketplace
-          </h3>
+          <h3>Marketplace</h3>
 
-          <a href="#shop">
-            Shop
-          </a>
-
-          <a href="#categories">
-            Categories
-          </a>
-
-          <a href="#shop">
-            Phones
-          </a>
-
-          <a href="#shop">
-            Laptops
-          </a>
-
-          <a href="#shop">
-            SIM Cards
-          </a>
+          <a href="#shop">Shop</a>
+          <a href="#categories">Categories</a>
+          <a href="#shop">Phones</a>
+          <a href="#shop">Laptops</a>
+          <a href="#shop">SIM Cards</a>
 
         </div>
 
 
-        <!-- Services -->
         <div class="footer-column">
 
-          <h3>
-            Services
-          </h3>
+          <h3>Services</h3>
 
-          <a href="#gift-cards">
-            Gift Cards
-          </a>
-
-          <a href="#exchange">
-            Gift Card Exchange
-          </a>
-
-          <a href="#bitcoin">
-            Bitcoin
-          </a>
-
-          <a href="support.html">
-            Support
-          </a>
+          <a href="#gift-cards">Gift Cards</a>
+          <a href="#exchange">Gift Card Exchange</a>
+          <a href="#bitcoin">Bitcoin</a>
+          <a href="support.html">Support</a>
 
         </div>
 
 
-        <!-- Account -->
         <div class="footer-column">
 
-          <h3>
-            Account
-          </h3>
+          <h3>Account</h3>
 
-          <a href="login.html">
-            Sign in
-          </a>
-
-          <a href="signup.html">
-            Create account
-          </a>
-
-          <a href="orders.html">
-            Orders
-          </a>
-
-          <a href="account.html">
-            My account
-          </a>
+          <a href="login.html">Sign in</a>
+          <a href="signup.html">Create account</a>
+          <a href="orders.html">Orders</a>
+          <a href="account.html">My account</a>
 
         </div>
 
@@ -1045,8 +989,8 @@
       <div class="footer-bottom">
 
         <span>
-          © 2026 Destiny Marketplace.
-          All rights reserved.
+          © <span data-year></span>
+          Destiny Marketplace. All rights reserved.
         </span>
 
         <div class="footer-legal">
