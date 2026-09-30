@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#26352a"
+  >
+
+  <meta
+    name="description"
+    content="Sign in to your Destiny Marketplace account."
+  >
+
+  <title>Sign In | Destiny Marketplace</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <!-- Main site styles -->
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* =========================================================
+       DESTINY MARKETPLACE
+       LOGIN PAGE
+    ========================================================= */
+
+    .auth-page {
+      min-height: 100vh;
+      background: var(--cream-50);
+
+      display: grid;
+      grid-template-columns:
+        minmax(360px, 0.9fr)
+        minmax(520px, 1.1fr);
+    }
+
+    /* =========================================================
+       BRAND PANEL
+    ========================================================= */
+
+    .auth-brand-panel {
+      position: relative;
+      overflow: hidden;
+
+      min-height: 100vh;
+      padding: 42px clamp(32px, 6vw, 90px);
+
+      background:
+        radial-gradient(
+          circle at 85% 15%,
+          rgba(182, 154, 90, 0.18),
+          transparent 30%
+        ),
+        linear-gradient(
+          145deg,
+          var(--olive-950),
+          var(--olive-900)
+        );
+
+      color: var(--text-light);
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .auth-brand-panel::before {
+      content: "";
+
+      position: absolute;
+
+      width: 420px;
+      height: 420px;
+
+      right: -180px;
+      bottom: -180px;
+
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 50%;
+    }
+
+    .auth-brand-panel::after {
+      content: "";
+
+      position: absolute;
+
+      width: 260px;
+      height: 260px;
+
+      left: -130px;
+      top: 45%;
+
+      border: 1px solid rgba(182,154,90,.15);
+      border-radius: 50%;
+    }
+
+    .auth-brand,
+    .auth-brand-content,
+    .auth-brand-footer {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* =========================================================
+       BRAND
+    ========================================================= */
+
+    .auth-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+
+      width: fit-content;
+
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .auth-brand-mark {
+      width: 42px;
+      height: 42px;
+
+      border: 1px solid rgba(182,154,90,.75);
+      border-radius: 10px;
+
+      display: grid;
+      place-items: center;
+
+      color: var(--brass);
+
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .auth-brand-text {
+      display: flex;
+      flex-direction: column;
+
+      line-height: 1;
+    }
+
+    .auth-brand-text strong {
+      font-size: 17px;
+      letter-spacing: -.02em;
+    }
+
+    .auth-brand-text span {
+      margin-top: 5px;
+
+      color: var(--text-muted-light);
+
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    /* =========================================================
+       BRAND CONTENT
+    ========================================================= */
+
+    .auth-brand-content {
+      max-width: 520px;
+      margin: auto 0;
+    }
+
+    .auth-eyebrow {
+      margin-bottom: 18px;
+
+      color: var(--brass);
+
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .auth-brand-content h1 {
+      max-width: 500px;
+      margin: 0;
+
+      color: var(--white);
+
+      font-size: clamp(38px, 4.5vw, 64px);
+      line-height: 1.02;
+      letter-spacing: -.045em;
+    }
+
+    .auth-brand-content > p {
+      max-width: 470px;
+      margin: 24px 0 0;
+
+      color: var(--text-muted-light);
+
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    /* =========================================================
+       BENEFITS
+    ========================================================= */
+
+    .auth-benefits {
+      display: grid;
+      gap: 18px;
+
+      margin-top: 42px;
+    }
+
+    .auth-benefit {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .auth-benefit-icon {
+      flex: 0 0 38px;
+
+      width: 38px;
+      height: 38px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid rgba(182,154,90,.3);
+      border-radius: 10px;
+
+      color: var(--brass);
+      background: rgba(255,255,255,.04);
+    }
+
+    .auth-benefit strong {
+      display: block;
+
+      margin-bottom: 4px;
+
+      color: var(--white);
+
+      font-size: 14px;
+    }
+
+    .auth-benefit span {
+      color: var(--text-muted-light);
+
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .auth-brand-footer {
+      color: rgba(245,240,230,.55);
+
+      font-size: 12px;
+    }
+
+    /* =========================================================
+       FORM PANEL
+    ========================================================= */
+
+    .auth-form-panel {
+      min-height: 100vh;
+
+      padding: 42px clamp(24px, 6vw, 90px);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-form-container {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .auth-mobile-brand {
+      display: none;
+    }
+
+    /* =========================================================
+       HEADING
+    ========================================================= */
+
+    .auth-heading {
+      margin-bottom: 30px;
+    }
+
+    .auth-heading h2 {
+      margin: 0;
+
+      color: var(--text-primary);
+
+      font-size: clamp(30px, 4vw, 40px);
+      line-height: 1.1;
+      letter-spacing: -.035em;
+    }
+
+    .auth-heading p {
+      margin: 11px 0 0;
+
+      color: var(--text-secondary);
+
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       FORM
+    ========================================================= */
+
+    .auth-form {
+      display: grid;
+      gap: 18px;
+    }
+
+    .form-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .form-field label {
+      color: var(--text-primary);
+
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+
+      left: 15px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      color: var(--olive-400);
+
+      font-size: 14px;
+
+      pointer-events: none;
+    }
+
+    .form-field input {
+      width: 100%;
+      height: 52px;
+
+      padding: 0 15px 0 44px;
+
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+
+      outline: none;
+
+      background: var(--white);
+      color: var(--text-primary);
+
+      font-family: inherit;
+      font-size: 14px;
+
+      transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .form-field input::placeholder {
+      color: #9ba19b;
+    }
+
+    .form-field input:focus {
+      border-color: var(--brass);
+
+      box-shadow:
+        0 0 0 3px rgba(182,154,90,.12);
+    }
+
+    /* =========================================================
+       PASSWORD
+    ========================================================= */
+
+    .password-input {
+      padding-right: 52px !important;
+    }
+
+    .password-toggle {
+      position: absolute;
+
+      right: 10px;
+      top: 50%;
+
+      width: 36px;
+      height: 36px;
+
+      transform: translateY(-50%);
+
+      border: 0;
+
+      background: transparent;
+      color: var(--olive-400);
+
+      cursor: pointer;
+    }
+
+    .password-toggle:hover {
+      color: var(--olive-900);
+    }
+
+    /* =========================================================
+       OPTIONS
+    ========================================================= */
+
+    .login-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      margin-top: -2px;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      color: var(--text-secondary);
+
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .remember-me input {
+      width: 16px;
+      height: 16px;
+
+      margin: 0;
+
+      accent-color: var(--olive-800);
+
+      cursor: pointer;
+    }
+
+    .forgot-password {
+      color: var(--olive-900);
+
+      font-size: 12px;
+      font-weight: 600;
+
+      text-decoration: none;
+    }
+
+    .forgot-password:hover {
+      text-decoration: underline;
+    }
+
+    /* =========================================================
+       SUBMIT
+    ========================================================= */
+
+    .auth-submit {
+      width: 100%;
+      min-height: 54px;
+
+      border: 0;
+      border-radius: 10px;
+
+      background: var(--olive-900);
+      color: var(--white);
+
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+
+      cursor: pointer;
+
+      transition:
+        transform var(--transition-fast),
+        background var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .auth-submit:hover {
+      background: var(--olive-950);
+
+      box-shadow:
+        0 10px 24px rgba(29,40,31,.14);
+
+      transform: translateY(-1px);
+    }
+
+    .auth-submit:active {
+      transform: translateY(0);
+    }
+
+    .auth-submit:disabled {
+      opacity: .65;
+
+      cursor: not-allowed;
+
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* =========================================================
+       MESSAGE
+    ========================================================= */
+
+    .auth-message {
+      display: none;
+
+      padding: 12px 14px;
+
+      border-radius: 9px;
+
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .auth-message.is-visible {
+      display: block;
+    }
+
+    .auth-message.error {
+      border: 1px solid rgba(170,60,60,.2);
+
+      background: rgba(170,60,60,.07);
+
+      color: #8d3030;
+    }
+
+    .auth-message.success {
+      border: 1px solid rgba(45,125,75,.2);
+
+      background: rgba(45,125,75,.07);
+
+      color: #276b40;
+    }
+
+    /* =========================================================
+       DIVIDER
+    ========================================================= */
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+
+      margin: 25px 0;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+      content: "";
+
+      height: 1px;
+      flex: 1;
+
+      background: var(--border-light);
+    }
+
+    .auth-divider span {
+      color: #9a9f99;
+
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    /* =========================================================
+       ACCOUNT SWITCH
+    ========================================================= */
+
+    .auth-switch {
+      margin-top: 24px;
+
+      color: var(--text-secondary);
+
+      text-align: center;
+
+      font-size: 13px;
+    }
+
+    .auth-switch a {
+      color: var(--olive-900);
+
+      font-weight: 700;
+
+      text-decoration: none;
+    }
+
+    .auth-switch a:hover {
+      text-decoration: underline;
+    }
+
+    /* =========================================================
+       BACK HOME
+    ========================================================= */
+
+    .back-home {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+
+      width: 100%;
+
+      margin-top: 18px;
+
+      color: var(--text-secondary);
+
+      font-size: 12px;
+
+      text-decoration: none;
+    }
+
+    .back-home:hover {
+      color: var(--olive-900);
+    }
+
+    /* =========================================================
+       SECURITY
+    ========================================================= */
+
+    .auth-security {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+
+      margin-top: 28px;
+
+      color: #8a9089;
+
+      font-size: 11px;
+    }
+
+    .auth-security i {
+      color: var(--brass-dark);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 900px) {
+
+      .auth-page {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-brand-panel {
+        display: none;
+      }
+
+      .auth-form-panel {
+        min-height: 100vh;
+
+        padding: 28px 22px 40px;
+
+        align-items: flex-start;
+      }
+
+      .auth-form-container {
+        max-width: 560px;
+
+        margin: 0 auto;
+      }
+
+      .auth-mobile-brand {
+        display: flex;
+
+        justify-content: center;
+
+        margin-bottom: 42px;
+      }
+
+      .auth-mobile-brand .auth-brand {
+        color: var(--text-primary);
+      }
+
+      .auth-mobile-brand .auth-brand-mark {
+        color: var(--brass-dark);
+
+        border-color: rgba(182,154,90,.55);
+      }
+
+      .auth-mobile-brand .auth-brand-text span {
+        color: var(--text-secondary);
+      }
+    }
+
+    @media (max-width: 520px) {
+
+      .auth-form-panel {
+        padding: 22px 18px 34px;
+      }
+
+      .auth-mobile-brand {
+        margin-bottom: 32px;
+      }
+
+      .auth-heading {
+        margin-bottom: 24px;
+      }
+
+      .auth-heading h2 {
+        font-size: 30px;
+      }
+
+      .auth-form {
+        gap: 16px;
+      }
+
+      .form-field input {
+        height: 50px;
+      }
+
+      .auth-submit {
+        min-height: 52px;
+      }
+
+      .login-options {
+        align-items: flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .form-field input,
+      .auth-submit {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="auth-page">
+
+    <!-- =======================================================
+         BRAND PANEL
+    ======================================================== -->
+
+    <section class="auth-brand-panel">
+
+      <a
+        href="index.html"
+        class="auth-brand"
+        aria-label="Destiny Marketplace home"
+      >
+
+        <span class="auth-brand-mark">
+          D
+        </span>
+
+        <span class="auth-brand-text">
+          <strong>Destiny</strong>
+          <span>Marketplace</span>
+        </span>
+
+      </a>
+
+
+      <div class="auth-brand-content">
+
+        <div class="auth-eyebrow">
+          Welcome back
+        </div>
+
+        <h1>
+          Your marketplace,
+          right where you left it.
+        </h1>
+
+        <p>
+          Sign in to access your Destiny Marketplace
+          account, manage your activity and continue
+          shopping across our global marketplace.
+        </p>
+
+
+        <div class="auth-benefits">
+
+          <div class="auth-benefit">
+
+            <div class="auth-benefit-icon">
+              <i
+                class="fa-solid fa-bag-shopping"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <div>
+              <strong>
+                Continue shopping
+              </strong>
+
+              <span>
+                Access the marketplace and continue
+                exploring products and services.
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="auth-benefit">
+
+            <div class="auth-benefit-icon">
+              <i
+                class="fa-solid fa-receipt"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <div>
+              <strong>
+                Keep track of your orders
+              </strong>
+
+              <span>
+                Your account will connect your purchases
+                and marketplace activity in one place.
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="auth-benefit">
+
+            <div class="auth-benefit-icon">
+              <i
+                class="fa-solid fa-globe"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <div>
+              <strong>
+                Designed for global customers
+              </strong>
+
+              <span>
+                Your account is built around your country
+                and international marketplace needs.
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="auth-brand-footer">
+        © <span data-year></span> Destiny Marketplace
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         LOGIN FORM
+    ======================================================== -->
+
+    <section class="auth-form-panel">
+
+      <div class="auth-form-container">
+
+        <!-- Mobile brand -->
+
+        <div class="auth-mobile-brand">
+
+          <a
+            href="index.html"
+            class="auth-brand"
+            aria-label="Destiny Marketplace home"
+          >
+
+            <span class="auth-brand-mark">
+              D
+            </span>
+
+            <span class="auth-brand-text">
+              <strong>Destiny</strong>
+              <span>Marketplace</span>
+            </span>
+
+          </a>
+
+        </div>
+
+
+        <!-- Heading -->
+
+        <div class="auth-heading">
+
+          <h2>
+            Welcome back
+          </h2>
+
+          <p>
+            Sign in to your Destiny Marketplace account
+            to continue.
+          </p>
+
+        </div>
+
+
+        <!-- Form -->
+
+        <form
+          class="auth-form"
+          id="loginForm"
+          novalidate
+        >
+
+          <!-- Email -->
+
+          <div class="form-field">
+
+            <label for="loginEmail">
+              Email address
+            </label>
+
+            <div class="input-wrapper">
+
+              <i
+                class="fa-regular fa-envelope input-icon"
+                aria-hidden="true"
+              ></i>
+
+              <input
+                type="email"
+                id="loginEmail"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                inputmode="email"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <!-- Password -->
+
+          <div class="form-field">
+
+            <label for="loginPassword">
+              Password
+            </label>
+
+            <div class="input-wrapper">
+
+              <i
+                class="fa-solid fa-lock input-icon"
+                aria-hidden="true"
+              ></i>
+
+              <input
+                type="password"
+                id="loginPassword"
+                name="password"
+                class="password-input"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              >
+
+              <button
+                type="button"
+                class="password-toggle"
+                id="toggleLoginPassword"
+                aria-label="Show password"
+              >
+
+                <i
+                  class="fa-regular fa-eye"
+                  aria-hidden="true"
+                ></i>
+
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- Remember / Forgot -->
+
+          <div class="login-options">
+
+            <label
+              class="remember-me"
+              for="rememberMe"
+            >
+
+              <input
+                type="checkbox"
+                id="rememberMe"
+                name="rememberMe"
+              >
+
+              <span>
+                Remember me
+              </span>
+
+            </label>
+
+
+            <a
+              href="forgot-password.html"
+              class="forgot-password"
+              id="forgotPassword"
+            >
+              Forgot password?
+            </a>
+
+          </div>
+
+
+          <!-- Message -->
+
+          <div
+            id="loginMessage"
+            class="auth-message"
+            role="alert"
+            aria-live="polite"
+          ></div>
+
+
+          <!-- Submit -->
+
+          <button
+            type="submit"
+            class="auth-submit"
+            id="loginButton"
+          >
+            Sign in
+          </button>
+
+        </form>
+
+
+        <!-- Account switch -->
+
+        <div class="auth-switch">
+
+          Don't have an account?
+
+          <a href="create-account.html">
+            Create account
+          </a>
+
+        </div>
+
+
+        <!-- Back -->
+
+        <a
+          href="index.html"
+          class="back-home"
+        >
+
+          <i
+            class="fa-solid fa-arrow-left"
+            aria-hidden="true"
+          ></i>
+
+          Back to Destiny Marketplace
+
+        </a>
+
+
+        <!-- Security -->
+
+        <div class="auth-security">
+
+          <i
+            class="fa-solid fa-lock"
+            aria-hidden="true"
+          ></i>
+
+          <span>
+            Your account information is protected.
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =======================================================
+       BASIC PAGE INTERACTIONS
+       Firebase logic will be handled by login.js
+  ======================================================== -->
+
+  <script>
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+      /* -------------------------------------------------------
+         Dynamic year
+      ------------------------------------------------------- */
+
+      const yearElement =
+        document.querySelector("[data-year]");
+
+      if (yearElement) {
+        yearElement.textContent =
+          new Date().getFullYear();
+      }
+
+
+      /* -------------------------------------------------------
+         Password visibility
+      ------------------------------------------------------- */
+
+      const passwordInput =
+        document.getElementById("loginPassword");
+
+      const togglePassword =
+        document.getElementById(
+          "toggleLoginPassword"
+        );
+
+
+      if (passwordInput && togglePassword) {
+
+        togglePassword.addEventListener(
+          "click",
+          () => {
+
+            const isPassword =
+              passwordInput.type === "password";
+
+            passwordInput.type =
+              isPassword
+                ? "text"
+                : "password";
+
+
+            const icon =
+              togglePassword.querySelector("i");
+
+
+            if (icon) {
+
+              icon.classList.toggle(
+                "fa-eye",
+                !isPassword
+              );
+
+              icon.classList.toggle(
+                "fa-eye-slash",
+                isPassword
+              );
+
+            }
+
+
+            togglePassword.setAttribute(
+              "aria-label",
+              isPassword
+                ? "Hide password"
+                : "Show password"
+            );
+
+          }
+        );
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
