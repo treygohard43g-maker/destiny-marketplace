@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#26352a"
+  >
+
+  <meta
+    name="description"
+    content="Create your Destiny Marketplace account."
+  >
+
+  <title>Create Account | Destiny Marketplace</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <!-- Main site styles -->
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* =========================================================
+       DESTINY MARKETPLACE
+       CREATE ACCOUNT
+    ========================================================= */
+
+    .auth-page {
+      min-height: 100vh;
+      background: var(--cream-50);
+      display: grid;
+      grid-template-columns: minmax(360px, 0.9fr) minmax(520px, 1.1fr);
+    }
+
+    /* =========================================================
+       BRAND PANEL
+    ========================================================= */
+
+    .auth-brand-panel {
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      padding: 42px clamp(32px, 6vw, 90px);
+      background:
+        radial-gradient(
+          circle at 85% 15%,
+          rgba(182, 154, 90, 0.18),
+          transparent 30%
+        ),
+        linear-gradient(
+          145deg,
+          var(--olive-950),
+          var(--olive-900)
+        );
+
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .auth-brand-panel::before {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 50%;
+      right: -180px;
+      bottom: -180px;
+    }
+
+    .auth-brand-panel::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border: 1px solid rgba(182,154,90,.15);
+      border-radius: 50%;
+      left: -130px;
+      top: 45%;
+    }
+
+    .auth-brand,
+    .auth-brand-content,
+    .auth-brand-footer {
+      position: relative;
+      z-index: 2;
+    }
+
+    .auth-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      width: fit-content;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .auth-brand-mark {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(182,154,90,.75);
+      border-radius: 10px;
+
+      display: grid;
+      place-items: center;
+
+      color: var(--brass);
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .auth-brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .auth-brand-text strong {
+      font-size: 17px;
+      letter-spacing: -.02em;
+    }
+
+    .auth-brand-text span {
+      margin-top: 5px;
+      color: var(--text-muted-light);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .auth-brand-content {
+      max-width: 520px;
+      margin: auto 0;
+    }
+
+    .auth-eyebrow {
+      margin-bottom: 18px;
+
+      color: var(--brass);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .auth-brand-content h1 {
+      max-width: 500px;
+      margin: 0;
+
+      color: var(--white);
+      font-size: clamp(38px, 4.5vw, 64px);
+      line-height: 1.02;
+      letter-spacing: -.045em;
+    }
+
+    .auth-brand-content > p {
+      max-width: 470px;
+      margin: 24px 0 0;
+
+      color: var(--text-muted-light);
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .auth-benefits {
+      display: grid;
+      gap: 18px;
+      margin-top: 42px;
+    }
+
+    .auth-benefit {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .auth-benefit-icon {
+      flex: 0 0 38px;
+      width: 38px;
+      height: 38px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid rgba(182,154,90,.3);
+      border-radius: 10px;
+
+      color: var(--brass);
+      background: rgba(255,255,255,.04);
+    }
+
+    .auth-benefit strong {
+      display: block;
+      margin-bottom: 4px;
+
+      color: var(--white);
+      font-size: 14px;
+    }
+
+    .auth-benefit span {
+      color: var(--text-muted-light);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .auth-brand-footer {
+      color: rgba(245,240,230,.55);
+      font-size: 12px;
+    }
+
+    /* =========================================================
+       FORM PANEL
+    ========================================================= */
+
+    .auth-form-panel {
+      min-height: 100vh;
+      padding: 42px clamp(24px, 6vw, 90px);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-form-container {
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .auth-mobile-brand {
+      display: none;
+    }
+
+    .auth-heading {
+      margin-bottom: 30px;
+    }
+
+    .auth-heading h2 {
+      margin: 0;
+
+      color: var(--text-primary);
+      font-size: clamp(30px, 4vw, 40px);
+      line-height: 1.1;
+      letter-spacing: -.035em;
+    }
+
+    .auth-heading p {
+      margin: 11px 0 0;
+
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       FORM
+    ========================================================= */
+
+    .auth-form {
+      display: grid;
+      gap: 18px;
+    }
+
+    .form-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .form-field label {
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      color: var(--olive-400);
+      font-size: 14px;
+
+      pointer-events: none;
+    }
+
+    .form-field input,
+    .form-field select {
+      width: 100%;
+      height: 52px;
+
+      padding: 0 15px 0 44px;
+
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+
+      outline: none;
+
+      background: var(--white);
+      color: var(--text-primary);
+
+      font-family: inherit;
+      font-size: 14px;
+
+      transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background var(--transition-fast);
+    }
+
+    .form-field select {
+      appearance: none;
+      -webkit-appearance: none;
+
+      cursor: pointer;
+      padding-right: 44px;
+    }
+
+    .select-arrow {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      color: var(--olive-400);
+      font-size: 12px;
+
+      pointer-events: none;
+    }
+
+    .form-field input::placeholder {
+      color: #9ba19b;
+    }
+
+    .form-field input:focus,
+    .form-field select:focus {
+      border-color: var(--brass);
+      box-shadow: 0 0 0 3px rgba(182,154,90,.12);
+      background: var(--white);
+    }
+
+    /* =========================================================
+       PHONE
+    ========================================================= */
+
+    .phone-group {
+      display: grid;
+      grid-template-columns: 155px 1fr;
+      gap: 10px;
+    }
+
+    .phone-country select {
+      padding-left: 42px;
+    }
+
+    /* =========================================================
+       PASSWORD
+    ========================================================= */
+
+    .password-toggle {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+
+      width: 34px;
+      height: 34px;
+
+      transform: translateY(-50%);
+
+      border: 0;
+      background: transparent;
+
+      color: var(--olive-400);
+
+      cursor: pointer;
+    }
+
+    .password-toggle:hover {
+      color: var(--olive-900);
+    }
+
+    .password-input {
+      padding-right: 52px !important;
+    }
+
+    .password-hint {
+      color: var(--text-secondary);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       TERMS
+    ========================================================= */
+
+    .terms-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+
+      margin-top: 2px;
+    }
+
+    .terms-row input {
+      width: 17px;
+      height: 17px;
+
+      margin-top: 1px;
+
+      accent-color: var(--olive-800);
+
+      cursor: pointer;
+    }
+
+    .terms-row label {
+      color: var(--text-secondary);
+      font-size: 12px;
+      line-height: 1.55;
+      cursor: pointer;
+    }
+
+    .terms-row a {
+      color: var(--olive-900);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .terms-row a:hover {
+      text-decoration: underline;
+    }
+
+    /* =========================================================
+       BUTTON
+    ========================================================= */
+
+    .auth-submit {
+      width: 100%;
+      min-height: 54px;
+
+      border: 0;
+      border-radius: 10px;
+
+      background: var(--olive-900);
+      color: var(--white);
+
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+
+      cursor: pointer;
+
+      transition:
+        transform var(--transition-fast),
+        background var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .auth-submit:hover {
+      background: var(--olive-950);
+      box-shadow: 0 10px 24px rgba(29,40,31,.14);
+      transform: translateY(-1px);
+    }
+
+    .auth-submit:active {
+      transform: translateY(0);
+    }
+
+    .auth-submit:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* =========================================================
+       MESSAGE
+    ========================================================= */
+
+    .auth-message {
+      display: none;
+
+      padding: 12px 14px;
+
+      border-radius: 9px;
+
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .auth-message.is-visible {
+      display: block;
+    }
+
+    .auth-message.error {
+      border: 1px solid rgba(170,60,60,.2);
+      background: rgba(170,60,60,.07);
+      color: #8d3030;
+    }
+
+    .auth-message.success {
+      border: 1px solid rgba(45,125,75,.2);
+      background: rgba(45,125,75,.07);
+      color: #276b40;
+    }
+
+    /* =========================================================
+       FOOTER LINKS
+    ========================================================= */
+
+    .auth-switch {
+      margin-top: 26px;
+
+      color: var(--text-secondary);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .auth-switch a {
+      color: var(--olive-900);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .auth-switch a:hover {
+      text-decoration: underline;
+    }
+
+    .back-home {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+
+      width: 100%;
+      margin-top: 18px;
+
+      color: var(--text-secondary);
+
+      font-size: 12px;
+      text-decoration: none;
+    }
+
+    .back-home:hover {
+      color: var(--olive-900);
+    }
+
+    .auth-security {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+
+      margin-top: 28px;
+
+      color: #8a9089;
+      font-size: 11px;
+    }
+
+    .auth-security i {
+      color: var(--brass-dark);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 900px) {
+
+      .auth-page {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-brand-panel {
+        display: none;
+      }
+
+      .auth-form-panel {
+        min-height: 100vh;
+        padding: 28px 22px 40px;
+        align-items: flex-start;
+      }
+
+      .auth-form-container {
+        max-width: 560px;
+        margin: 0 auto;
+      }
+
+      .auth-mobile-brand {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 42px;
+      }
+
+      .auth-mobile-brand .auth-brand {
+        color: var(--text-primary);
+      }
+
+      .auth-mobile-brand .auth-brand-mark {
+        color: var(--brass-dark);
+        border-color: rgba(182,154,90,.55);
+      }
+
+      .auth-mobile-brand .auth-brand-text span {
+        color: var(--text-secondary);
+      }
+    }
+
+    @media (max-width: 520px) {
+
+      .auth-form-panel {
+        padding: 22px 18px 34px;
+      }
+
+      .auth-mobile-brand {
+        margin-bottom: 32px;
+      }
+
+      .auth-heading {
+        margin-bottom: 24px;
+      }
+
+      .auth-heading h2 {
+        font-size: 30px;
+      }
+
+      .auth-form {
+        gap: 16px;
+      }
+
+      .phone-group {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .form-field input,
+      .form-field select {
+        height: 50px;
+      }
+
+      .auth-submit {
+        min-height: 52px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .form-field input,
+      .form-field select,
+      .auth-submit {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="auth-page">
+
+    <!-- =======================================================
+         BRAND PANEL
+    ======================================================== -->
+
+    <section class="auth-brand-panel">
+
+      <a
+        href="index.html"
+        class="auth-brand"
+        aria-label="Destiny Marketplace home"
+      >
+        <span class="auth-brand-mark">D</span>
+
+        <span class="auth-brand-text">
+          <strong>Destiny</strong>
+          <span>Marketplace</span>
+        </span>
+      </a>
+
+      <div class="auth-brand-content">
+
+        <div class="auth-eyebrow">
+          Destiny Marketplace
+        </div>
+
+        <h1>
+          One account.
+          A world of possibilities.
+        </h1>
+
+        <p>
+          Create your Destiny Marketplace account and manage
+          purchases, orders, gift cards, exchanges and more
+          from one secure place.
+        </p>
+
+        <div class="auth-benefits">
+
+          <div class="auth-benefit">
+
+            <div class="auth-benefit-icon">
+              <i class="fa-solid fa-globe"></i>
+            </div>
+
+            <div>
+              <strong>Built for global customers</strong>
+
+              <span>
+                Choose your country and keep your account
+                information relevant to your region.
+              </span>
+            </div>
+
+          </div>
+
+          <div class="auth-benefit">
+
+            <div class="auth-benefit-icon">
+              <i class="fa-solid fa-box-open"></i>
+            </div>
+
+            <div>
+              <strong>Manage your marketplace activity</strong>
+
+              <span>
+                Keep your orders, purchases and marketplace
+                services connected to one account.
+              </span>
+            </div>
+
+          </div>
+
+          <div class="auth-benefit">
+
+            <div class="auth-benefit-icon">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+
+            <div>
+              <strong>Account-focused security</strong>
+
+              <span>
+                Your account credentials are handled through
+                the authentication system powering the platform.
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="auth-brand-footer">
+        © <span data-year></span> Destiny Marketplace
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         FORM PANEL
+    ======================================================== -->
+
+    <section class="auth-form-panel">
+
+      <div class="auth-form-container">
+
+        <!-- Mobile brand -->
+
+        <div class="auth-mobile-brand">
+
+          <a
+            href="index.html"
+            class="auth-brand"
+            aria-label="Destiny Marketplace home"
+          >
+            <span class="auth-brand-mark">D</span>
+
+            <span class="auth-brand-text">
+              <strong>Destiny</strong>
+              <span>Marketplace</span>
+            </span>
+          </a>
+
+        </div>
+
+
+        <!-- Heading -->
+
+        <div class="auth-heading">
+
+          <h2>Create your account</h2>
+
+          <p>
+            Join Destiny Marketplace and manage your
+            marketplace activity from one account.
+          </p>
+
+        </div>
+
+
+        <!-- Form -->
+
+        <form
+          class="auth-form"
+          id="signupForm"
+          novalidate
+        >
+
+          <!-- Full name -->
+
+          <div class="form-field">
+
+            <label for="signupFullName">
+              Full name
+            </label>
+
+            <div class="input-wrapper">
+
+              <i
+                class="fa-regular fa-user input-icon"
+                aria-hidden="true"
+              ></i>
+
+              <input
+                type="text"
+                id="signupFullName"
+                name="fullName"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <!-- Email -->
+
+          <div class="form-field">
+
+            <label for="signupEmail">
+              Email address
+            </label>
+
+            <div class="input-wrapper">
+
+              <i
+                class="fa-regular fa-envelope input-icon"
+                aria-hidden="true"
+              ></i>
+
+              <input
+                type="email"
+                id="signupEmail"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                inputmode="email"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <!-- Country -->
+
+          <div class="form-field">
+
+            <label for="signupCountry">
+              Country
+            </label>
+
+            <div class="input-wrapper">
+
+              <i
+                class="fa-solid fa-globe input-icon"
+                aria-hidden="true"
+              ></i>
+
+              <select
+                id="signupCountry"
+                name="country"
+                autocomplete="country-name"
+                required
+              >
+
+                <option value="" selected disabled>
+                  Select your country
+                </option>
+
+                <option value="AF">Afghanistan</option>
+                <option value="AL">Albania</option>
+                <option value="DZ">Algeria</option>
+                <option value="AD">Andorra</option>
+                <option value="AO">Angola</option>
+                <option value="AG">Antigua and Barbuda</option>
+                <option value="AR">Argentina</option>
+                <option value="AM">Armenia</option>
+                <option value="AU">Australia</option>
+                <option value="AT">Austria</option>
+                <option value="AZ">Azerbaijan</option>
+                <option value="BS">Bahamas</option>
+                <option value="BH">Bahrain</option>
+                <option value="BD">Bangladesh</option>
+                <option value="BB">Barbados</option>
+                <option value="BY">Belarus</option>
+                <option value="BE">Belgium</option>
+                <option value="BZ">Belize</option>
+                <option value="BJ">Benin</option>
+                <option value="BT">Bhutan</option>
+                <option value="BO">Bolivia</option>
+                <option value="BA">Bosnia and Herzegovina</option>
+                <option value="BW">Botswana</option>
+                <option value="BR">Brazil</option>
+                <option value="BN">Brunei</option>
+                <option value="BG">Bulgaria</option>
+                <option value="BF">Burkina Faso</option>
+                <option value="BI">Burundi</option>
+                <option value="CV">Cabo Verde</option>
+                <option value="KH">Cambodia</option>
+                <option value="CM">Cameroon</option>
+                <option value="CA">Canada</option>
+                <option value="CF">Central African Republic</option>
+                <option value="TD">Chad</option>
+                <option value="CL">Chile</option>
+                <option value="CN">China</option>
+                <option value="CO">Colombia</option>
+                <option value="KM">Comoros</option>
+                <option value="CG">Congo</option>
+                <option value="CD">Democratic Republic of the Congo</option>
+                <option value="CR">Costa Rica</option>
+                <option value="CI">Côte d'Ivoire</option>
+                <option value="HR">Croatia</option>
+                <option value="CU">Cuba</option>
+                <option value="CY">Cyprus</option>
+                <option value="CZ">Czech Republic</option>
+                <option value="DK">Denmark</option>
+                <option value="DJ">Djibouti</option>
+                <option value="DM">Dominica</option>
+                <option value="DO">Dominican Republic</option>
+                <option value="EC">Ecuador</option>
+                <option value="EG">Egypt</option>
+                <option value="SV">El Salvador</option>
+                <option value="GQ">Equatorial Guinea</option>
+                <option value="ER">Eritrea</option>
+                <option value="EE">Estonia</option>
+                <option value="SZ">Eswatini</option>
+                <option value="ET">Ethiopia</option>
+                <option value="FJ">Fiji</option>
+                <option value="FI">Finland</option>
+                <option value="FR">France</option>
+                <option value="GA">Gabon</option>
+                <option value="GM">Gambia</option>
+                <option value="GE">Georgia</option>
+                <option value="DE">Germany</option>
+                <option value="GH">Ghana</option>
+                <option value="GR">Greece</option>
+                <option value="GD">Grenada</option>
+                <option value="GT">Guatemala</option>
+                <option value="GN">Guinea</option>
+                <option value="GW">Guinea-Bissau</option>
+                <option value="GY">Guyana</option>
+                <option value="HT">Haiti</option>
+                <option value="HN">Honduras</option>
+                <option value="HU">Hungary</option>
+                <option value="IS">Iceland</option>
+                <option value="IN">India</option>
+                <option value="ID">Indonesia</option>
+                <option value="IR">Iran</option>
+                <option value="IQ">Iraq</option>
+                <option value="IE">Ireland</option>
+                <option value="IL">Israel</option>
+                <option value="IT">Italy</option>
+                <option value="JM">Jamaica</option>
+                <option value="JP">Japan</option>
+                <option value="JO">Jordan</option>
+                <option value="KZ">Kazakhstan</option>
+                <option value="KE">Kenya</option>
+                <option value="KI">Kiribati</option>
+                <option value="KW">Kuwait</option>
+                <option value="KG">Kyrgyzstan</option>
+                <option value="LA">Laos</option>
+                <option value="LV">Latvia</option>
+                <option value="LB">Lebanon</option>
+                <option value="LS">Lesotho</option>
+                <option value="LR">Liberia</option>
+                <option value="LY">Libya</option>
+                <option value="LI">Liechtenstein</option>
+                <option value="LT">Lithuania</option>
+                <option value="LU">Luxembourg</option>
+                <option value="MG">Madagascar</option>
+                <option value="MW">Malawi</option>
+                <option value="MY">Malaysia</option>
+                <option value="MV">Maldives</option>
+                <option value="ML">Mali</option>
+                <option value="MT">Malta</option>
+                <option value="MR">Mauritania</option>
+                <option value="MU">Mauritius</option>
+                <option value="MX">Mexico</option>
+                <option value="MD">Moldova</option>
+                <option value="MC">Monaco</option>
+                <option value="MN">Mongolia</option>
+                <option value="ME">Montenegro</option>
+                <option value="MA">Morocco</option>
+                <option value="MZ">Mozambique</option>
+                <option value="MM">Myanmar</option>
+                <option value="NA">Namibia</option>
+                <option value="NP">Nepal</option>
+                <option value="NL">Netherlands</option>
+                <option value="NZ">New Zealand</option>
+                <option value="NI">Nicaragua</option>
+                <option value="NE">Niger</option>
+                <option value="NG">Nigeria</option>
+                <option value="MK">North Macedonia</option>
+                <option value="NO">Norway</option>
+                <option value="OM">Oman</option>
+                <option value="PK">Pakistan</option>
+                <option value="PA">Panama</option>
+                <option value="PG">Papua New Guinea</option>
+                <option value="PY">Paraguay</option>
+                <option value="PE">Peru</option>
+                <option value="PH">Philippines</option>
+                <option value="PL">Poland</option>
+                <option value="PT">Portugal</option>
+                <option value="QA">Qatar</option>
+                <option value="RO">Romania</option>
+                <option value="RW">Rwanda</option>
+                <option value="KN">Saint Kitts and Nevis</option>
+                <option value="LC">Saint Lucia</option>
+                <option value="VC">Saint Vincent and the Grenadines</option>
+                <option value="WS">Samoa</option>
+                <option value="SM">San Marino</option>
+                <option value="ST">São Tomé and Príncipe</option>
+                <option value="SA">Saudi Arabia</option>
+                <option value="SN">Senegal</option>
+                <option value="RS">Serbia</option>
+                <option value="SC">Seychelles</option>
+                <option value="SL">Sierra Leone</option>
+                <option value="SG">Singapore</option>
+                <option value="SK">Slovakia</option>
+                <option value="SI">Slovenia</option>
+                <option value="SB">Solomon Islands</option>
+                <option value="SO">Somalia</option>
+                <option value="ZA">South Africa</option>
+                <option value="KR">South Korea</option>
+                <option value="SS">South Sudan</option>
+                <option value="ES">Spain</option>
+                <option value="LK">Sri Lanka</option>
+                <option value="SD">Sudan</option>
+                <option value="SR">Suriname</option>
+                <option value="SE">Sweden</option>
+                <option value="CH">Switzerland</option>
+                <option value="SY">Syria</option>
+                <option value="TW">Taiwan</option>
+                <option value="TJ">Tajikistan</option>
+                <option value="TZ">Tanzania</option>
+                <option value="TH">Thailand</option>
+                <option value="TG">Togo</option>
+                <option value="TO">Tonga</option>
+                <option value="TT">Trinidad and Tobago</option>
+                <option value="TN">Tunisia</option>
+                <option value="TR">Türkiye</option>
+                <option value="TM">Turkmenistan</option>
+                <option value="UG">Uganda</option>
+                <option value="UA">Ukraine</option>
+                <option value="AE">United Arab Emirates</option>
+                <option value="GB">United Kingdom</option>
+                <option value="US">United States</option>
+                <option value="UY">Uruguay</option>
+                <option value="UZ">Uzbekistan</option>
+                <option value="VU">Vanuatu</option>
+                <option value="VA">Vatican City</option>
+                <option value="VE">Venezuela</option>
+                <option value="VN">Vietnam</option>
+                <option value="YE">Yemen</option>
+                <option value="ZM">Zambia</option>
+                <option value="ZW">Zimbabwe</option>
+
+              </select>
+
+              <i
+                class="fa-solid fa-chevron-down select-arrow"
+                aria-hidden="true"
+              ></i>
+
+            </div>
+
+          </div>
+
+
+          <!-- Phone -->
+
+          <div class="form-field">
+
+            <label for="signupPhone">
+              Phone number
+            </label>
+
+            <div class="phone-group">
+
+              <div class="phone-country input-wrapper">
+
+                <i
+                  class="fa-solid fa-earth-americas input-icon"
+                  aria-hidden="true"
+                ></i>
+
+                <select
+                  id="signupPhoneCountry"
+                  name="phoneCountry"
+                  aria-label="Phone country code"
+                >
+
+                  <option value="+234">NG +234</option>
+                  <option value="+1">US/CA +1</option>
+                  <option value="+44">GB +44</option>
+                  <option value="+233">GH +233</option>
+                  <option value="+254">KE +254</option>
+                  <option value="+27">ZA +27</option>
+                  <option value="+971">AE +971</option>
+                  <option value="+91">IN +91</option>
+                  <option value="+61">AU +61</option>
+                  <option value="+49">DE +49</option>
+                  <option value="+33">FR +33</option>
+
+                </select>
+
+                <i
+                  class="fa-solid fa-chevron-down select-arrow"
+                  aria-hidden="true"
+                ></i>
+
+              </div>
+
+              <div class="input-wrapper">
+
+                <i
+                  class="fa-solid fa-phone input-icon"
+                  aria-hidden="true"
+                ></i>
+
+                <input
+                  type="tel"
+                  id="signupPhone"
+                  name="phone"
+                  placeholder="Phone number"
+                  autocomplete="tel"
+                  inputmode="tel"
+                  required
+                >
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Password -->
+
+          <div class="form-field">
+
+            <label for="signupPassword">
+              Password
+            </label>
+
+            <div class="input-wrapper">
+
+              <i
+                class="fa-solid fa-lock input-icon"
+                aria-hidden="true"
+              ></i>
+
+              <input
+                type="password"
+                id="signupPassword"
+                name="password"
+                class="password-input"
+                placeholder="Create a password"
+                autocomplete="new-password"
+                minlength="8"
+                required
+              >
+
+              <button
+                type="button"
+                class="password-toggle"
+                id="togglePassword"
+                aria-label="Show password"
+              >
+                <i class="fa-regular fa-eye"></i>
+              </button>
+
+            </div>
+
+            <span class="password-hint">
+              Use at least 8 characters.
+            </span>
+
+          </div>
+
+
+          <!-- Confirm password -->
+
+          <div class="form-field">
+
+            <label for="signupConfirmPassword">
+              Confirm password
+            </label>
+
+            <div class="input-wrapper">
+
+              <i
+                class="fa-solid fa-lock input-icon"
+                aria-hidden="true"
+              ></i>
+
+              <input
+                type="password"
+                id="signupConfirmPassword"
+                name="confirmPassword"
+                class="password-input"
+                placeholder="Confirm your password"
+                autocomplete="new-password"
+                minlength="8"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <!-- Terms -->
+
+          <div class="terms-row">
+
+            <input
+              type="checkbox"
+              id="terms"
+              name="terms"
+              required
+            >
+
+            <label for="terms">
+              I agree to the
+              <a href="terms.html">
+                Terms of Service
+              </a>
+              and
+              <a href="privacy.html">
+                Privacy Policy
+              </a>.
+            </label>
+
+          </div>
+
+
+          <!-- Firebase / validation message -->
+
+          <div
+            id="signupMessage"
+            class="auth-message"
+            role="alert"
+            aria-live="polite"
+          ></div>
+
+
+          <!-- Submit -->
+
+          <button
+            type="submit"
+            class="auth-submit"
+            id="signupButton"
+          >
+            Create account
+          </button>
+
+        </form>
+
+
+        <!-- Existing account -->
+
+        <div class="auth-switch">
+          Already have an account?
+          <a href="login.html">Sign in</a>
+        </div>
+
+
+        <!-- Back -->
+
+        <a
+          href="index.html"
+          class="back-home"
+        >
+          <i class="fa-solid fa-arrow-left"></i>
+          Back to Destiny Marketplace
+        </a>
+
+
+        <!-- Security -->
+
+        <div class="auth-security">
+
+          <i class="fa-solid fa-lock"></i>
+
+          <span>
+            Your account information is protected.
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =======================================================
+       PAGE INTERACTIONS
+  ======================================================== -->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+      const yearElement = document.querySelector("[data-year]");
+
+      if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+      }
+
+
+      const passwordInput =
+        document.getElementById("signupPassword");
+
+      const confirmPasswordInput =
+        document.getElementById("signupConfirmPassword");
+
+      const togglePassword =
+        document.getElementById("togglePassword");
+
+
+      if (togglePassword && passwordInput) {
+
+        togglePassword.addEventListener("click", () => {
+
+          const isPassword =
+            passwordInput.type === "password";
+
+          passwordInput.type =
+            isPassword ? "text" : "password";
+
+          if (confirmPasswordInput) {
+            confirmPasswordInput.type =
+              isPassword ? "text" : "password";
+          }
+
+          const icon =
+            togglePassword.querySelector("i");
+
+          if (icon) {
+
+            icon.classList.toggle(
+              "fa-eye",
+              !isPassword
+            );
+
+            icon.classList.toggle(
+              "fa-eye-slash",
+              isPassword
+            );
+
+          }
+
+          togglePassword.setAttribute(
+            "aria-label",
+            isPassword
+              ? "Hide password"
+              : "Show password"
+          );
+
+        });
+
+      }
+
+    });
+  </script>
+
+</body>
+</html>
