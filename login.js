@@ -44,8 +44,8 @@ const loginMessage =
 const urlParams =
   new URLSearchParams(window.location.search);
 
-const verificationSent =
-  urlParams.get("verification") === "sent";
+const verificationStatus =
+  urlParams.get("verification");
 
 
 // =========================================================
@@ -56,8 +56,7 @@ function showMessage(message) {
 
   if (!loginMessage) return;
 
-  loginMessage.textContent =
-    message;
+  loginMessage.textContent = message;
 
   loginMessage.classList.add("show");
 }
@@ -77,8 +76,7 @@ function setLoading(isLoading) {
 
   if (!loginButton) return;
 
-  loginButton.disabled =
-    isLoading;
+  loginButton.disabled = isLoading;
 
   loginButton.textContent =
     isLoading
@@ -88,14 +86,24 @@ function setLoading(isLoading) {
 
 
 // =========================================================
-// VERIFICATION MESSAGE
+// VERIFICATION STATUS MESSAGE
 // =========================================================
 
-if (verificationSent) {
+if (verificationStatus === "sent") {
 
   showMessage(
-    "Your account was created. Please check your email and verify your address before signing in."
+    "Account created successfully. We sent a verification email to your inbox. Please verify your email before signing in. Check your Spam or Junk folder if you don't see it."
   );
+
+}
+
+
+if (verificationStatus === "required") {
+
+  showMessage(
+    "Please verify your email address before accessing your account. Check your inbox or Spam folder for the verification email."
+  );
+
 }
 
 
@@ -112,9 +120,9 @@ loginForm?.addEventListener(
     clearMessage();
 
 
-    // -----------------------------------------------------
-    // Collect form values
-    // -----------------------------------------------------
+    // ===================================================
+    // COLLECT FORM VALUES
+    // ===================================================
 
     const email =
       emailInput?.value.trim().toLowerCase() || "";
@@ -123,9 +131,9 @@ loginForm?.addEventListener(
       passwordInput?.value || "";
 
 
-    // -----------------------------------------------------
-    // Basic validation
-    // -----------------------------------------------------
+    // ===================================================
+    // VALIDATION
+    // ===================================================
 
     if (!email) {
 
@@ -156,9 +164,9 @@ loginForm?.addEventListener(
 
     try {
 
-      // ===================================================
-      // 1. SET AUTH PERSISTENCE
-      // ===================================================
+      // =================================================
+      // 1. AUTH PERSISTENCE
+      // =================================================
 
       await setPersistence(
         auth,
@@ -168,9 +176,9 @@ loginForm?.addEventListener(
       );
 
 
-      // ===================================================
+      // =================================================
       // 2. SIGN IN
-      // ===================================================
+      // =================================================
 
       const userCredential =
         await signInWithEmailAndPassword(
@@ -184,41 +192,68 @@ loginForm?.addEventListener(
         userCredential.user;
 
 
-      // ===================================================
-      // 3. REFRESH USER INFORMATION
-      // ===================================================
+      // =================================================
+      // 3. REFRESH FIREBASE USER
+      // =================================================
       //
-      // Firebase can cache authentication information.
-      // Reloading ensures emailVerified reflects the
-      // current server state after the user clicks the
-      // verification link.
-      // ===================================================
+      // This is important because the customer may have
+      // clicked the verification link in another tab,
+      // browser, or device.
+      // =================================================
 
       await user.reload();
 
 
-      // ===================================================
-      // 4. CHECK EMAIL VERIFICATION
-      // ===================================================
+      // =================================================
+      // 4. EMAIL VERIFICATION CHECK
+      // =================================================
 
       if (!user.emailVerified) {
 
-        // -------------------------------------------------
-        // Sign the user out so an unverified account does
-        // not remain authenticated in the browser.
-        // -------------------------------------------------
+        // ------------------------------------------------
+        // Try to send another verification email.
+        // ------------------------------------------------
+
+        try {
+
+          await sendEmailVerification(user);
+
+          showMessage(
+            "Your email is not verified yet. We sent a new verification email to your inbox. Please verify your email, then sign in again. Check your Spam or Junk folder if needed."
+          );
+
+        } catch (verificationError) {
+
+          console.error(
+            "Destiny Marketplace verification email error:",
+            verificationError
+          );
+
+
+          if (
+            verificationError.code ===
+            "auth/too-many-requests"
+          ) {
+
+            showMessage(
+              "Your email is not verified yet. A verification email was already sent recently. Please check your inbox or Spam folder and try again later."
+            );
+
+          } else {
+
+            showMessage(
+              "Your email is not verified yet. Please check your inbox or Spam folder for the verification email."
+            );
+
+          }
+        }
+
+
+        // ------------------------------------------------
+        // Never keep an unverified customer authenticated.
+        // ------------------------------------------------
 
         await signOut(auth);
-
-
-        // -------------------------------------------------
-        // Tell the customer exactly what to do.
-        // -------------------------------------------------
-
-        showMessage(
-          "Your email address has not been verified yet. Please check your inbox and verify your email before signing in."
-        );
-
 
         setLoading(false);
 
@@ -226,13 +261,13 @@ loginForm?.addEventListener(
       }
 
 
-      // ===================================================
-      // 5. VERIFIED USER — OPEN DASHBOARD
-      // ===================================================
+      // =================================================
+      // 5. VERIFIED CUSTOMER
+      // =================================================
 
-      window.location.href =
-        "dashboard.html";
-
+      window.location.replace(
+        "dashboard.html"
+      );
 
     } catch (error) {
 
@@ -242,9 +277,9 @@ loginForm?.addEventListener(
       );
 
 
-      // ===================================================
+      // =================================================
       // FIREBASE ERROR HANDLING
-      // ===================================================
+      // =================================================
 
       switch (error.code) {
 
@@ -291,7 +326,7 @@ loginForm?.addEventListener(
         case "auth/network-request-failed":
 
           showMessage(
-            "Network error. Please check your internet connection."
+            "Network error. Please check your internet connection and try again."
           );
 
           break;
@@ -302,6 +337,7 @@ loginForm?.addEventListener(
           showMessage(
             "Unable to sign in right now. Please try again."
           );
+
       }
 
 
