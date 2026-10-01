@@ -17,7 +17,7 @@
 
   <meta
     name="description"
-    content="Shop products and services on Destiny Marketplace."
+    content="Shop products, gift cards, electronics, fashion, SIM cards and digital services on Destiny Marketplace."
   >
 
   <title>Marketplace | Destiny Marketplace</title>
@@ -55,7 +55,7 @@
 
 
   <!-- =====================================================
-       DASHBOARD STYLES
+       MARKETPLACE STYLES
   ====================================================== -->
 
   <link
@@ -131,13 +131,14 @@
         </div>
 
 
-        <!-- NAVIGATION -->
+        <!-- =================================================
+             SHOP NAVIGATION
+        ================================================== -->
 
         <nav
           class="marketplace-nav"
           aria-label="Marketplace navigation"
         >
-
 
           <p class="nav-label">
             Shop
@@ -145,9 +146,9 @@
 
 
           <a
-            href="dashboard.html"
+            href="#"
             class="nav-item active"
-            aria-current="page"
+            data-action="marketplace"
           >
 
             <i class="fa-solid fa-store"></i>
@@ -168,14 +169,207 @@
             <i class="fa-solid fa-layer-group"></i>
 
             <span>
-              Categories
+              All Categories
             </span>
 
           </button>
 
 
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="phones"
+          >
+
+            <i class="fa-solid fa-mobile-screen-button"></i>
+
+            <span>
+              Phones & Tablets
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="laptops"
+          >
+
+            <i class="fa-solid fa-laptop"></i>
+
+            <span>
+              Computers & Laptops
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="electronics"
+          >
+
+            <i class="fa-solid fa-tv"></i>
+
+            <span>
+              Electronics
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="fashion"
+          >
+
+            <i class="fa-solid fa-shirt"></i>
+
+            <span>
+              Fashion
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="shoes"
+          >
+
+            <i class="fa-solid fa-shoe-prints"></i>
+
+            <span>
+              Shoes
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="home"
+          >
+
+            <i class="fa-solid fa-house"></i>
+
+            <span>
+              Home & Accessories
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="giftcards"
+          >
+
+            <i class="fa-solid fa-gift"></i>
+
+            <span>
+              Gift Cards
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="sim-cards"
+          >
+
+            <i class="fa-solid fa-sim-card"></i>
+
+            <span>
+              SIM Cards
+            </span>
+
+          </button>
+
+
+          <!-- =================================================
+               DESTINY SERVICES
+          ================================================== -->
+
           <p class="nav-label nav-label-spaced">
-            Orders
+            Destiny Services
+          </p>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="buy-bitcoin"
+          >
+
+            <i class="fa-brands fa-bitcoin"></i>
+
+            <span>
+              Buy Bitcoin
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="sell-bitcoin"
+          >
+
+            <i class="fa-brands fa-bitcoin"></i>
+
+            <span>
+              Sell Bitcoin
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="buy-giftcards"
+          >
+
+            <i class="fa-solid fa-gift"></i>
+
+            <span>
+              Buy Gift Cards
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="giftcard-exchange"
+          >
+
+            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+            <span>
+              Gift Card Exchange
+            </span>
+
+          </button>
+
+
+          <!-- =================================================
+               ACCOUNT
+          ================================================== -->
+
+          <p class="nav-label nav-label-spaced">
+            Account
           </p>
 
 
@@ -188,7 +382,7 @@
             <i class="fa-solid fa-box"></i>
 
             <span>
-              My orders
+              My Orders
             </span>
 
           </button>
@@ -203,7 +397,7 @@
             <i class="fa-solid fa-cart-shopping"></i>
 
             <span>
-              Cart
+              My Cart
             </span>
 
             <span
@@ -217,61 +411,6 @@
           </button>
 
 
-          <p class="nav-label nav-label-spaced">
-            Services
-          </p>
-
-
-          <button
-            type="button"
-            class="nav-item dashboard-action"
-            data-action="giftcards"
-          >
-
-            <i class="fa-solid fa-gift"></i>
-
-            <span>
-              Gift cards
-            </span>
-
-          </button>
-
-
-          <button
-            type="button"
-            class="nav-item dashboard-action"
-            data-action="exchange"
-          >
-
-            <i class="fa-solid fa-arrow-right-arrow-left"></i>
-
-            <span>
-              Gift card exchange
-            </span>
-
-          </button>
-
-
-          <button
-            type="button"
-            class="nav-item dashboard-action"
-            data-action="bitcoin"
-          >
-
-            <i class="fa-brands fa-bitcoin"></i>
-
-            <span>
-              Bitcoin
-            </span>
-
-          </button>
-
-
-          <p class="nav-label nav-label-spaced">
-            Account
-          </p>
-
-
           <button
             type="button"
             class="nav-item dashboard-action"
@@ -281,7 +420,7 @@
             <i class="fa-solid fa-gear"></i>
 
             <span>
-              Settings
+              Account Settings
             </span>
 
           </button>
@@ -296,7 +435,7 @@
             <i class="fa-regular fa-circle-question"></i>
 
             <span>
-              Help & support
+              Help & Support
             </span>
 
           </button>
@@ -306,7 +445,9 @@
       </div>
 
 
-      <!-- SIDEBAR FOOTER -->
+      <!-- ===================================================
+           SIDEBAR FOOTER
+      ==================================================== -->
 
       <div class="sidebar-footer">
 
@@ -353,9 +494,9 @@
     </aside>
 
 
-    <!-- ===================================================
+    <!-- =====================================================
          MOBILE OVERLAY
-    ==================================================== -->
+    ====================================================== -->
 
     <div
       class="sidebar-overlay"
@@ -363,16 +504,16 @@
     ></div>
 
 
-    <!-- ===================================================
-         MAIN
-    ==================================================== -->
+    <!-- =====================================================
+         MAIN APPLICATION
+    ====================================================== -->
 
     <main class="marketplace-main">
 
 
-      <!-- =================================================
-           TOP HEADER
-      ================================================== -->
+      <!-- ===================================================
+           HEADER
+      ==================================================== -->
 
       <header class="marketplace-header">
 
@@ -391,11 +532,12 @@
         </button>
 
 
-        <!-- BRAND FOR MOBILE -->
+        <!-- MOBILE BRAND -->
 
         <a
           href="dashboard.html"
           class="mobile-header-brand"
+          aria-label="Destiny Marketplace"
         >
 
           <span class="brand-mark">
@@ -421,9 +563,9 @@
           <input
             type="search"
             id="productSearch"
-            placeholder="Search products..."
+            placeholder="Search products, brands and services..."
             autocomplete="off"
-            aria-label="Search products"
+            aria-label="Search products, brands and services"
           >
 
           <button
@@ -446,11 +588,14 @@
         <div class="header-actions">
 
 
+          <!-- ORDERS -->
+
           <button
             type="button"
             class="header-action dashboard-action"
             data-action="orders"
             aria-label="My orders"
+            title="My orders"
           >
 
             <i class="fa-solid fa-box"></i>
@@ -458,11 +603,14 @@
           </button>
 
 
+          <!-- CART -->
+
           <button
             type="button"
             class="header-action dashboard-action"
             data-action="cart"
             aria-label="Shopping cart"
+            title="Shopping cart"
           >
 
             <i class="fa-solid fa-cart-shopping"></i>
@@ -478,11 +626,14 @@
           </button>
 
 
+          <!-- ACCOUNT -->
+
           <button
             type="button"
             class="header-action dashboard-action"
             data-action="settings"
-            aria-label="Account settings"
+            aria-label="Account"
+            title="Account"
           >
 
             <i class="fa-regular fa-user"></i>
@@ -494,15 +645,15 @@
       </header>
 
 
-      <!-- =================================================
+      <!-- ===================================================
            MARKETPLACE CONTENT
-      ================================================== -->
+      ==================================================== -->
 
       <div class="marketplace-content">
 
 
         <!-- =================================================
-             WELCOME / HERO
+             HERO / PROMOTIONAL AREA
         ================================================== -->
 
         <section class="marketplace-hero">
@@ -510,17 +661,65 @@
           <div class="hero-copy">
 
             <p class="section-kicker">
-              Destiny Marketplace
+              Welcome to Destiny Marketplace
             </p>
 
             <h1>
-              Find what you need.
+              Everything you need,
+              <span>in one marketplace.</span>
             </h1>
 
             <p>
-              Shop products and services from across
-              our marketplace.
+              Shop electronics, fashion, gift cards,
+              SIM cards, accessories and digital services
+              from Destiny Marketplace.
             </p>
+
+
+            <div class="hero-actions">
+
+              <button
+                type="button"
+                class="hero-button primary"
+                data-action="categories"
+              >
+
+                Shop now
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+              </button>
+
+
+              <button
+                type="button"
+                class="hero-button secondary"
+                data-action="giftcards"
+              >
+
+                Explore gift cards
+
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="hero-visual"
+            aria-hidden="true"
+          >
+
+            <div class="hero-orbit hero-orbit-one"></div>
+
+            <div class="hero-orbit hero-orbit-two"></div>
+
+            <div class="hero-product-icon">
+
+              <i class="fa-solid fa-bag-shopping"></i>
+
+            </div>
 
           </div>
 
@@ -528,10 +727,13 @@
 
 
         <!-- =================================================
-             CATEGORIES
+             QUICK CATEGORIES
         ================================================== -->
 
-        <section class="category-section">
+        <section
+          class="category-section"
+          id="categoriesSection"
+        >
 
           <div class="section-heading">
 
@@ -546,6 +748,19 @@
               </h2>
 
             </div>
+
+
+            <button
+              type="button"
+              class="section-link dashboard-action"
+              data-action="categories"
+            >
+
+              View all
+
+              <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
 
           </div>
 
@@ -569,45 +784,7 @@
               </span>
 
               <span>
-                All products
-              </span>
-
-            </button>
-
-
-            <button
-              type="button"
-              class="category-card"
-              data-category="gift-cards"
-            >
-
-              <span class="category-icon">
-
-                <i class="fa-solid fa-gift"></i>
-
-              </span>
-
-              <span>
-                Gift cards
-              </span>
-
-            </button>
-
-
-            <button
-              type="button"
-              class="category-card"
-              data-category="sim-cards"
-            >
-
-              <span class="category-icon">
-
-                <i class="fa-solid fa-sim-card"></i>
-
-              </span>
-
-              <span>
-                SIM cards
+                All
               </span>
 
             </button>
@@ -651,17 +828,320 @@
             </button>
 
 
+            <button
+              type="button"
+              class="category-card"
+              data-category="electronics"
+            >
+
+              <span class="category-icon">
+
+                <i class="fa-solid fa-tv"></i>
+
+              </span>
+
+              <span>
+                Electronics
+              </span>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="category-card"
+              data-category="fashion"
+            >
+
+              <span class="category-icon">
+
+                <i class="fa-solid fa-shirt"></i>
+
+              </span>
+
+              <span>
+                Fashion
+              </span>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="category-card"
+              data-category="shoes"
+            >
+
+              <span class="category-icon">
+
+                <i class="fa-solid fa-shoe-prints"></i>
+
+              </span>
+
+              <span>
+                Shoes
+              </span>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="category-card"
+              data-category="home"
+            >
+
+              <span class="category-icon">
+
+                <i class="fa-solid fa-house"></i>
+
+              </span>
+
+              <span>
+                Home
+              </span>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="category-card"
+              data-category="gift-cards"
+            >
+
+              <span class="category-icon">
+
+                <i class="fa-solid fa-gift"></i>
+
+              </span>
+
+              <span>
+                Gift Cards
+              </span>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="category-card"
+              data-category="sim-cards"
+            >
+
+              <span class="category-icon">
+
+                <i class="fa-solid fa-sim-card"></i>
+
+              </span>
+
+              <span>
+                SIM Cards
+              </span>
+
+            </button>
+
           </div>
 
         </section>
 
 
         <!-- =================================================
-             PRODUCTS
+             FLASH DEALS
         ================================================== -->
 
-        <section class="products-section">
+        <section
+          class="marketplace-product-section"
+          id="flashDealsSection"
+        >
 
+          <div class="section-heading">
+
+            <div>
+
+              <p class="section-kicker">
+                Limited offers
+              </p>
+
+              <h2>
+                Flash Deals
+              </h2>
+
+            </div>
+
+
+            <button
+              type="button"
+              class="section-link"
+              data-section-action="flash-deals"
+            >
+
+              View all
+
+              <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+          </div>
+
+
+          <div
+            class="product-grid marketplace-section-grid"
+            id="flashDealsGrid"
+          ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             FEATURED PRODUCTS
+        ================================================== -->
+
+        <section
+          class="marketplace-product-section"
+          id="featuredSection"
+        >
+
+          <div class="section-heading">
+
+            <div>
+
+              <p class="section-kicker">
+                Popular right now
+              </p>
+
+              <h2>
+                Featured Products
+              </h2>
+
+            </div>
+
+
+            <button
+              type="button"
+              class="section-link"
+              data-section-action="featured"
+            >
+
+              View all
+
+              <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+          </div>
+
+
+          <div
+            class="product-grid marketplace-section-grid"
+            id="featuredGrid"
+          ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             RECOMMENDED
+        ================================================== -->
+
+        <section
+          class="marketplace-product-section"
+          id="recommendedSection"
+        >
+
+          <div class="section-heading">
+
+            <div>
+
+              <p class="section-kicker">
+                Picked for you
+              </p>
+
+              <h2>
+                Recommended for You
+              </h2>
+
+            </div>
+
+
+            <button
+              type="button"
+              class="section-link"
+              data-section-action="recommended"
+            >
+
+              View all
+
+              <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+          </div>
+
+
+          <div
+            class="product-grid marketplace-section-grid"
+            id="recommendedGrid"
+          ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             NEW ARRIVALS
+        ================================================== -->
+
+        <section
+          class="marketplace-product-section"
+          id="newArrivalsSection"
+        >
+
+          <div class="section-heading">
+
+            <div>
+
+              <p class="section-kicker">
+                Just added
+              </p>
+
+              <h2>
+                New Arrivals
+              </h2>
+
+            </div>
+
+
+            <button
+              type="button"
+              class="section-link"
+              data-section-action="new-arrivals"
+            >
+
+              View all
+
+              <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+          </div>
+
+
+          <div
+            class="product-grid marketplace-section-grid"
+            id="newArrivalsGrid"
+          ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             ALL PRODUCTS / SEARCH RESULTS
+        ================================================== -->
+
+        <section
+          class="products-section"
+          id="productsSection"
+        >
 
           <div class="section-heading products-heading">
 
@@ -675,7 +1155,7 @@
               </p>
 
               <h2 id="productsTitle">
-                All products
+                More Products
               </h2>
 
             </div>
@@ -712,7 +1192,7 @@
           </div>
 
 
-          <!-- SEARCH RESULT MESSAGE -->
+          <!-- SEARCH RESULT -->
 
           <div
             class="search-result-message"
@@ -741,7 +1221,7 @@
             <div class="loading-spinner"></div>
 
             <p>
-              Loading products...
+              Loading marketplace...
             </p>
 
           </div>
@@ -752,10 +1232,11 @@
           <div
             class="product-grid"
             id="productGrid"
+            hidden
           ></div>
 
 
-          <!-- EMPTY STATE -->
+          <!-- EMPTY -->
 
           <div
             class="products-empty"
@@ -765,7 +1246,7 @@
 
             <div class="empty-icon">
 
-              <i class="fa-solid fa-magnifying-glass"></i>
+              <i class="fa-solid fa-box-open"></i>
 
             </div>
 
@@ -793,7 +1274,7 @@
           </div>
 
 
-          <!-- ERROR STATE -->
+          <!-- ERROR -->
 
           <div
             class="products-error"
@@ -832,6 +1313,155 @@
         </section>
 
 
+        <!-- =================================================
+             DESTINY SERVICES
+        ================================================== -->
+
+        <section
+          class="services-section"
+          id="servicesSection"
+        >
+
+          <div class="section-heading">
+
+            <div>
+
+              <p class="section-kicker">
+                More from Destiny
+              </p>
+
+              <h2>
+                Destiny Services
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="services-grid">
+
+
+            <button
+              type="button"
+              class="service-card"
+              data-action="buy-bitcoin"
+            >
+
+              <span class="service-icon bitcoin-icon">
+
+                <i class="fa-brands fa-bitcoin"></i>
+
+              </span>
+
+              <span class="service-copy">
+
+                <strong>
+                  Buy Bitcoin
+                </strong>
+
+                <small>
+                  Purchase Bitcoin through Destiny.
+                </small>
+
+              </span>
+
+              <i class="fa-solid fa-arrow-right service-arrow"></i>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="service-card"
+              data-action="sell-bitcoin"
+            >
+
+              <span class="service-icon">
+
+                <i class="fa-solid fa-coins"></i>
+
+              </span>
+
+              <span class="service-copy">
+
+                <strong>
+                  Sell Bitcoin
+                </strong>
+
+                <small>
+                  Sell your Bitcoin through Destiny.
+                </small>
+
+              </span>
+
+              <i class="fa-solid fa-arrow-right service-arrow"></i>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="service-card"
+              data-action="buy-giftcards"
+            >
+
+              <span class="service-icon">
+
+                <i class="fa-solid fa-gift"></i>
+
+              </span>
+
+              <span class="service-copy">
+
+                <strong>
+                  Buy Gift Cards
+                </strong>
+
+                <small>
+                  Shop digital gift cards.
+                </small>
+
+              </span>
+
+              <i class="fa-solid fa-arrow-right service-arrow"></i>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="service-card"
+              data-action="giftcard-exchange"
+            >
+
+              <span class="service-icon">
+
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+              </span>
+
+              <span class="service-copy">
+
+                <strong>
+                  Gift Card Exchange
+                </strong>
+
+                <small>
+                  Exchange eligible gift cards.
+                </small>
+
+              </span>
+
+              <i class="fa-solid fa-arrow-right service-arrow"></i>
+
+            </button>
+
+          </div>
+
+        </section>
+
+
       </div>
 
     </main>
@@ -860,7 +1490,7 @@
 
 
   <!-- =====================================================
-       DASHBOARD SCRIPT
+       DASHBOARD JAVASCRIPT
   ====================================================== -->
 
   <script
