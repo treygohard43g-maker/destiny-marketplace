@@ -6,7 +6,9 @@ import { auth, db } from "./firebase.js";
 
 import {
   createUserWithEmailAndPassword,
-  updateProfile
+  updateProfile,
+  sendEmailVerification,
+  deleteUser
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
 import {
@@ -20,7 +22,8 @@ import {
 // FORM ELEMENTS
 // =========================================================
 
-const signupForm = document.getElementById("signupForm");
+const signupForm =
+  document.getElementById("signupForm");
 
 const fullNameInput =
   document.getElementById("signupFullName");
@@ -109,36 +112,56 @@ function validateForm() {
 
 
   if (!fullName) {
-    showMessage("Please enter your full name.");
+    showMessage(
+      "Please enter your full name."
+    );
+
     fullNameInput?.focus();
+
     return false;
   }
 
 
   if (!email) {
-    showMessage("Please enter your email address.");
+    showMessage(
+      "Please enter your email address."
+    );
+
     emailInput?.focus();
+
     return false;
   }
 
 
   if (!country) {
-    showMessage("Please select your country.");
+    showMessage(
+      "Please select your country."
+    );
+
     countryInput?.focus();
+
     return false;
   }
 
 
   if (!phone) {
-    showMessage("Please enter your phone number.");
+    showMessage(
+      "Please enter your phone number."
+    );
+
     phoneInput?.focus();
+
     return false;
   }
 
 
   if (!password) {
-    showMessage("Please create a password.");
+    showMessage(
+      "Please create a password."
+    );
+
     passwordInput?.focus();
+
     return false;
   }
 
@@ -149,20 +172,29 @@ function validateForm() {
     );
 
     passwordInput?.focus();
+
     return false;
   }
 
 
   if (!confirmPassword) {
-    showMessage("Please confirm your password.");
+    showMessage(
+      "Please confirm your password."
+    );
+
     confirmPasswordInput?.focus();
+
     return false;
   }
 
 
   if (password !== confirmPassword) {
-    showMessage("Your passwords do not match.");
+    showMessage(
+      "Your passwords do not match."
+    );
+
     confirmPasswordInput?.focus();
+
     return false;
   }
 
@@ -173,6 +205,7 @@ function validateForm() {
     );
 
     termsInput?.focus();
+
     return false;
   }
 
@@ -188,16 +221,24 @@ function validateForm() {
 signupForm?.addEventListener(
   "submit",
   async (event) => {
+
     event.preventDefault();
 
     clearMessage();
 
 
-    // Validate before contacting Firebase.
+    // -----------------------------------------------------
+    // Validate form before contacting Firebase
+    // -----------------------------------------------------
+
     if (!validateForm()) {
       return;
     }
 
+
+    // -----------------------------------------------------
+    // Collect form data
+    // -----------------------------------------------------
 
     const fullName =
       fullNameInput.value.trim();
@@ -221,11 +262,14 @@ signupForm?.addEventListener(
     setLoading(true);
 
 
+    let createdUser = null;
+
+
     try {
 
-      // ---------------------------------------------------
-      // 1. Create Firebase Authentication account
-      // ---------------------------------------------------
+      // ===================================================
+      // 1. CREATE FIREBASE AUTH ACCOUNT
+      // ===================================================
 
       const userCredential =
         await createUserWithEmailAndPassword(
@@ -235,37 +279,42 @@ signupForm?.addEventListener(
         );
 
 
-      const user =
+      createdUser =
         userCredential.user;
 
 
-      // ---------------------------------------------------
-      // 2. Store the customer's display name in Firebase
-      // Authentication
-      // ---------------------------------------------------
+      // ===================================================
+      // 2. SAVE DISPLAY NAME TO AUTH PROFILE
+      // ===================================================
 
-      await updateProfile(user, {
-        displayName: fullName
-      });
+      await updateProfile(
+        createdUser,
+        {
+          displayName: fullName
+        }
+      );
 
 
-      // ---------------------------------------------------
-      // 3. Create the customer's Firestore profile
-      // ---------------------------------------------------
+      // ===================================================
+      // 3. CREATE FIRESTORE CUSTOMER PROFILE
+      // ===================================================
       //
-      // IMPORTANT:
-      // The role is always assigned as "customer".
+      // The browser never receives the ability to choose
+      // an elevated role.
       //
-      // We do NOT allow the browser/user to choose their
-      // own role.
+      // Every public registration creates a customer.
       //
       // Initial balances are always zero.
-      // ---------------------------------------------------
+      // ===================================================
 
       await setDoc(
-        doc(db, "users", user.uid),
+        doc(
+          db,
+          "users",
+          createdUser.uid
+        ),
         {
-          uid: user.uid,
+          uid: createdUser.uid,
 
           name: fullName,
 
@@ -292,12 +341,33 @@ signupForm?.addEventListener(
       );
 
 
-      // ---------------------------------------------------
-      // 4. Account successfully created
-      // ---------------------------------------------------
+      // ===================================================
+      // 4. SEND EMAIL VERIFICATION
+      // ===================================================
+
+      await sendEmailVerification(
+        createdUser
+      );
+
+
+      // ===================================================
+      // 5. SIGN OUT THE NEW USER
+      // ===================================================
+      //
+      // The customer must verify their email before the
+      // application allows dashboard access.
+      // ===================================================
+
+      await auth.signOut();
+
+
+      // ===================================================
+      // 6. SEND CUSTOMER TO LOGIN
+      // ===================================================
 
       window.location.href =
-        "dashboard.html";
+        "login.html?verification=sent";
+
 
     } catch (error) {
 
@@ -307,9 +377,39 @@ signupForm?.addEventListener(
       );
 
 
-      // ---------------------------------------------------
-      // Firebase Authentication errors
-      // ---------------------------------------------------
+      // ===================================================
+      // PARTIAL SIGNUP CLEANUP
+      // ===================================================
+      //
+      // If Auth succeeded but profile creation or email
+      // verification failed, attempt to remove the newly
+      // created Auth account.
+      //
+      // This prevents many incomplete registrations from
+      // being left behind.
+      // ===================================================
+
+      if (createdUser) {
+
+        try {
+
+          await deleteUser(
+            createdUser
+          );
+
+        } catch (cleanupError) {
+
+          console.error(
+            "Destiny Marketplace signup cleanup error:",
+            cleanupError
+          );
+        }
+      }
+
+
+      // ===================================================
+      // ERROR HANDLING
+      // ===================================================
 
       switch (error.code) {
 
@@ -358,12 +458,21 @@ signupForm?.addEventListener(
           break;
 
 
+        case "auth/requires-recent-login":
+
+          showMessage(
+            "Please try creating your account again."
+          );
+
+          break;
+
+
         case "permission-denied":
 
         case "firestore/permission-denied":
 
           showMessage(
-            "Your account was created, but we couldn't finish setting up your profile. Please contact support."
+            "We couldn't finish setting up your account. Please try again."
           );
 
           break;
