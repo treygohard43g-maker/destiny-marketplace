@@ -8,7 +8,8 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
   sendEmailVerification,
-  deleteUser
+  deleteUser,
+  signOut
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
 import {
@@ -61,29 +62,37 @@ const signupButton =
 // =========================================================
 
 function showMessage(message) {
+
   if (!signupMessage) return;
 
-  signupMessage.textContent = message;
+  signupMessage.textContent =
+    message;
+
   signupMessage.classList.add("show");
 }
 
 
 function clearMessage() {
+
   if (!signupMessage) return;
 
   signupMessage.textContent = "";
+
   signupMessage.classList.remove("show");
 }
 
 
 function setLoading(isLoading) {
+
   if (!signupButton) return;
 
-  signupButton.disabled = isLoading;
+  signupButton.disabled =
+    isLoading;
 
-  signupButton.textContent = isLoading
-    ? "Creating account..."
-    : "Create account";
+  signupButton.textContent =
+    isLoading
+      ? "Creating account..."
+      : "Create account";
 }
 
 
@@ -92,6 +101,7 @@ function setLoading(isLoading) {
 // =========================================================
 
 function validateForm() {
+
   const fullName =
     fullNameInput?.value.trim() || "";
 
@@ -112,6 +122,7 @@ function validateForm() {
 
 
   if (!fullName) {
+
     showMessage(
       "Please enter your full name."
     );
@@ -123,6 +134,7 @@ function validateForm() {
 
 
   if (!email) {
+
     showMessage(
       "Please enter your email address."
     );
@@ -134,6 +146,7 @@ function validateForm() {
 
 
   if (!country) {
+
     showMessage(
       "Please select your country."
     );
@@ -145,6 +158,7 @@ function validateForm() {
 
 
   if (!phone) {
+
     showMessage(
       "Please enter your phone number."
     );
@@ -156,6 +170,7 @@ function validateForm() {
 
 
   if (!password) {
+
     showMessage(
       "Please create a password."
     );
@@ -167,6 +182,7 @@ function validateForm() {
 
 
   if (password.length < 8) {
+
     showMessage(
       "Your password must be at least 8 characters."
     );
@@ -178,6 +194,7 @@ function validateForm() {
 
 
   if (!confirmPassword) {
+
     showMessage(
       "Please confirm your password."
     );
@@ -189,6 +206,7 @@ function validateForm() {
 
 
   if (password !== confirmPassword) {
+
     showMessage(
       "Your passwords do not match."
     );
@@ -200,6 +218,7 @@ function validateForm() {
 
 
   if (!termsInput?.checked) {
+
     showMessage(
       "Please agree to the Terms of Service and Privacy Policy."
     );
@@ -228,7 +247,7 @@ signupForm?.addEventListener(
 
 
     // -----------------------------------------------------
-    // Validate form before contacting Firebase
+    // Validate form
     // -----------------------------------------------------
 
     if (!validateForm()) {
@@ -264,6 +283,10 @@ signupForm?.addEventListener(
 
     let createdUser = null;
 
+    let accountCreated = false;
+
+    let profileCreated = false;
+
 
     try {
 
@@ -282,9 +305,11 @@ signupForm?.addEventListener(
       createdUser =
         userCredential.user;
 
+      accountCreated = true;
+
 
       // ===================================================
-      // 2. SAVE DISPLAY NAME TO AUTH PROFILE
+      // 2. SAVE DISPLAY NAME
       // ===================================================
 
       await updateProfile(
@@ -297,14 +322,6 @@ signupForm?.addEventListener(
 
       // ===================================================
       // 3. CREATE FIRESTORE CUSTOMER PROFILE
-      // ===================================================
-      //
-      // The browser never receives the ability to choose
-      // an elevated role.
-      //
-      // Every public registration creates a customer.
-      //
-      // Initial balances are always zero.
       // ===================================================
 
       await setDoc(
@@ -341,33 +358,109 @@ signupForm?.addEventListener(
       );
 
 
+      profileCreated = true;
+
+
       // ===================================================
       // 4. SEND EMAIL VERIFICATION
       // ===================================================
 
-      await sendEmailVerification(
-        createdUser
+      try {
+
+        await sendEmailVerification(
+          createdUser
+        );
+
+      } catch (verificationError) {
+
+        console.error(
+          "Destiny Marketplace verification email error:",
+          verificationError
+        );
+
+
+        // -------------------------------------------------
+        // The account itself is valid.
+        //
+        // Do NOT delete the customer just because the
+        // verification email failed to send.
+        // -------------------------------------------------
+
+        await signOut(auth);
+
+
+        if (
+          verificationError.code ===
+          "auth/too-many-requests"
+        ) {
+
+          showMessage(
+            "Your account was created, but another verification email cannot be sent yet. Please try signing in later and check your inbox or Spam folder."
+          );
+
+        } else {
+
+          showMessage(
+            "Your account was created, but we couldn't send the verification email right now. Please try signing in again later."
+          );
+
+        }
+
+
+        setLoading(false);
+
+        return;
+      }
+
+
+      // ===================================================
+      // 5. SUCCESS
+      // ===================================================
+
+      showMessage(
+        `Account created successfully. We sent a verification email to ${email}. Please check your inbox and your Spam or Junk folder if you don't see it.`
       );
 
 
+      // ---------------------------------------------------
+      // Change button state so the customer can clearly
+      // see that registration completed.
+      // ---------------------------------------------------
+
+      if (signupButton) {
+
+        signupButton.disabled = true;
+
+        signupButton.textContent =
+          "Verification email sent";
+
+      }
+
+
       // ===================================================
-      // 5. SIGN OUT THE NEW USER
+      // 6. SIGN OUT
+      // ===================================================
+
+      await signOut(auth);
+
+
+      // ===================================================
+      // 7. MOVE TO LOGIN AFTER A SHORT DELAY
       // ===================================================
       //
-      // The customer must verify their email before the
-      // application allows dashboard access.
+      // The delay gives the customer enough time to actually
+      // see the verification confirmation on this page.
       // ===================================================
 
-      await auth.signOut();
+      setTimeout(
+        () => {
 
+          window.location.href =
+            "login.html?verification=sent";
 
-      // ===================================================
-      // 6. SEND CUSTOMER TO LOGIN
-      // ===================================================
-
-      window.location.href =
-        "login.html?verification=sent";
-
+        },
+        2500
+      );
 
     } catch (error) {
 
@@ -381,15 +474,17 @@ signupForm?.addEventListener(
       // PARTIAL SIGNUP CLEANUP
       // ===================================================
       //
-      // If Auth succeeded but profile creation or email
-      // verification failed, attempt to remove the newly
-      // created Auth account.
+      // Only clean up the Auth account if account creation
+      // succeeded but Firestore profile creation failed.
       //
-      // This prevents many incomplete registrations from
-      // being left behind.
+      // Once the profile exists, we preserve the account.
       // ===================================================
 
-      if (createdUser) {
+      if (
+        accountCreated &&
+        createdUser &&
+        !profileCreated
+      ) {
 
         try {
 
@@ -403,7 +498,9 @@ signupForm?.addEventListener(
             "Destiny Marketplace signup cleanup error:",
             cleanupError
           );
+
         }
+
       }
 
 
@@ -458,15 +555,6 @@ signupForm?.addEventListener(
           break;
 
 
-        case "auth/requires-recent-login":
-
-          showMessage(
-            "Please try creating your account again."
-          );
-
-          break;
-
-
         case "permission-denied":
 
         case "firestore/permission-denied":
@@ -483,6 +571,7 @@ signupForm?.addEventListener(
           showMessage(
             "We couldn't create your account right now. Please try again."
           );
+
       }
 
 
