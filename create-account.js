@@ -13,47 +13,70 @@ import {
 
 
 /* =========================================================
-   DESTINY MARKETPLACE — CREATE ACCOUNT
+   DESTINY MARKETPLACE
+   CREATE ACCOUNT
 ========================================================= */
-
-const createAccountForm =
-  document.getElementById("createAccountForm");
-
-const nameInput =
-  document.getElementById("name");
-
-const emailInput =
-  document.getElementById("email");
-
-const passwordInput =
-  document.getElementById("password");
-
-const confirmPasswordInput =
-  document.getElementById("confirmPassword");
-
-const createAccountButton =
-  document.getElementById("createAccountButton");
-
-const errorMessage =
-  document.getElementById("errorMessage");
 
 
 /* =========================================================
-   ERROR HANDLING
+   FORM ELEMENTS
 ========================================================= */
 
-function showError(message) {
-  if (!errorMessage) return;
+const signupForm =
+  document.getElementById("signupForm");
 
-  errorMessage.textContent = message;
-  errorMessage.classList.add("show");
+const fullNameInput =
+  document.getElementById("signupFullName");
+
+const emailInput =
+  document.getElementById("signupEmail");
+
+const countryInput =
+  document.getElementById("signupCountry");
+
+const phoneCountryInput =
+  document.getElementById("signupPhoneCountry");
+
+const phoneInput =
+  document.getElementById("signupPhone");
+
+const passwordInput =
+  document.getElementById("signupPassword");
+
+const confirmPasswordInput =
+  document.getElementById("signupConfirmPassword");
+
+const termsInput =
+  document.getElementById("terms");
+
+const signupMessage =
+  document.getElementById("signupMessage");
+
+const signupButton =
+  document.getElementById("signupButton");
+
+
+/* =========================================================
+   MESSAGE HELPERS
+========================================================= */
+
+function showMessage(message) {
+
+  if (!signupMessage) return;
+
+  signupMessage.textContent = message;
+
+  signupMessage.classList.add("show");
 }
 
-function clearError() {
-  if (!errorMessage) return;
 
-  errorMessage.textContent = "";
-  errorMessage.classList.remove("show");
+function clearMessage() {
+
+  if (!signupMessage) return;
+
+  signupMessage.textContent = "";
+
+  signupMessage.classList.remove("show");
 }
 
 
@@ -62,84 +85,218 @@ function clearError() {
 ========================================================= */
 
 function setLoading(isLoading) {
-  if (!createAccountButton) return;
 
-  createAccountButton.disabled = isLoading;
+  if (!signupButton) return;
 
-  createAccountButton.textContent = isLoading
+  signupButton.disabled = isLoading;
+
+  signupButton.textContent = isLoading
     ? "Creating account..."
     : "Create account";
 }
 
 
 /* =========================================================
-   FORM SUBMISSION
+   VALIDATION
 ========================================================= */
 
-createAccountForm?.addEventListener(
+function validateForm() {
+
+  const fullName =
+    fullNameInput?.value.trim() || "";
+
+  const email =
+    emailInput?.value.trim() || "";
+
+  const country =
+    countryInput?.value || "";
+
+  const phone =
+    phoneInput?.value.trim() || "";
+
+  const password =
+    passwordInput?.value || "";
+
+  const confirmPassword =
+    confirmPasswordInput?.value || "";
+
+
+  /* Full name */
+
+  if (!fullName) {
+
+    showMessage(
+      "Please enter your full name."
+    );
+
+    fullNameInput?.focus();
+
+    return false;
+  }
+
+
+  /* Email */
+
+  if (!email) {
+
+    showMessage(
+      "Please enter your email address."
+    );
+
+    emailInput?.focus();
+
+    return false;
+  }
+
+
+  /* Country */
+
+  if (!country) {
+
+    showMessage(
+      "Please select your country."
+    );
+
+    countryInput?.focus();
+
+    return false;
+  }
+
+
+  /* Phone */
+
+  if (!phone) {
+
+    showMessage(
+      "Please enter your phone number."
+    );
+
+    phoneInput?.focus();
+
+    return false;
+  }
+
+
+  /* Password */
+
+  if (!password) {
+
+    showMessage(
+      "Please create a password."
+    );
+
+    passwordInput?.focus();
+
+    return false;
+  }
+
+
+  if (password.length < 8) {
+
+    showMessage(
+      "Your password must be at least 8 characters."
+    );
+
+    passwordInput?.focus();
+
+    return false;
+  }
+
+
+  /* Confirm password */
+
+  if (!confirmPassword) {
+
+    showMessage(
+      "Please confirm your password."
+    );
+
+    confirmPasswordInput?.focus();
+
+    return false;
+  }
+
+
+  if (password !== confirmPassword) {
+
+    showMessage(
+      "Your passwords do not match."
+    );
+
+    confirmPasswordInput?.focus();
+
+    return false;
+  }
+
+
+  /* Terms */
+
+  if (!termsInput?.checked) {
+
+    showMessage(
+      "Please agree to the Terms of Service and Privacy Policy."
+    );
+
+    termsInput?.focus();
+
+    return false;
+  }
+
+
+  return true;
+}
+
+
+/* =========================================================
+   CREATE ACCOUNT
+========================================================= */
+
+signupForm?.addEventListener(
   "submit",
   async (event) => {
+
     event.preventDefault();
 
-    clearError();
+    clearMessage();
 
-    const name =
-      nameInput?.value.trim() || "";
+
+    /* Validate */
+
+    if (!validateForm()) {
+      return;
+    }
+
+
+    /* Collect values */
+
+    const fullName =
+      fullNameInput.value.trim();
 
     const email =
-      emailInput?.value.trim() || "";
+      emailInput.value.trim();
+
+    const country =
+      countryInput.value;
+
+    const phoneCountry =
+      phoneCountryInput?.value || "+234";
+
+    const phone =
+      phoneInput.value.trim();
 
     const password =
-      passwordInput?.value || "";
+      passwordInput.value;
 
-    const confirmPassword =
-      confirmPasswordInput?.value || "";
-
-
-    /* -------------------------------------------------------
-       VALIDATION
-    ------------------------------------------------------- */
-
-    if (!name) {
-      showError("Please enter your full name.");
-      nameInput?.focus();
-      return;
-    }
-
-    if (!email) {
-      showError("Please enter your email address.");
-      emailInput?.focus();
-      return;
-    }
-
-    if (!password) {
-      showError("Please create a password.");
-      passwordInput?.focus();
-      return;
-    }
-
-    if (password.length < 6) {
-      showError(
-        "Your password must be at least 6 characters."
-      );
-      passwordInput?.focus();
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      showError("Your passwords do not match.");
-      confirmPasswordInput?.focus();
-      return;
-    }
-
-
-    /* -------------------------------------------------------
-       CREATE FIREBASE ACCOUNT
-    ------------------------------------------------------- */
 
     setLoading(true);
 
+
     try {
+
+      /* =====================================================
+         CREATE FIREBASE AUTH ACCOUNT
+      ===================================================== */
+
       const userCredential =
         await createUserWithEmailAndPassword(
           auth,
@@ -147,92 +304,133 @@ createAccountForm?.addEventListener(
           password
         );
 
+
       const user =
         userCredential.user;
 
 
-      /* -----------------------------------------------------
-         SAVE CUSTOMER NAME TO FIREBASE AUTH
-      ----------------------------------------------------- */
+      /* =====================================================
+         SAVE DISPLAY NAME TO FIREBASE AUTH
+      ===================================================== */
 
       await updateProfile(user, {
-        displayName: name
+        displayName: fullName
       });
 
 
-      /* -----------------------------------------------------
-         CREATE CUSTOMER DOCUMENT
-      ----------------------------------------------------- */
+      /* =====================================================
+         CREATE USER DOCUMENT
+      ===================================================== */
 
       await setDoc(
         doc(db, "users", user.uid),
         {
+
           uid: user.uid,
-          name: name,
+
+          name: fullName,
+
           email: email,
 
-          country: "",
+          country: country,
+
+          phoneCountry: phoneCountry,
+
+          phone: phone,
+
           currency: "USD",
+
+          usdBalance: 0,
+
+          ngnBalance: 0,
 
           createdAt: serverTimestamp(),
 
-          usdBalance: 0,
-          ngnBalance: 0
+          updatedAt: serverTimestamp()
+
         }
       );
 
 
-      /* -----------------------------------------------------
-         SEND CUSTOMER TO DASHBOARD
-      ----------------------------------------------------- */
+      /* =====================================================
+         SUCCESS
+      ===================================================== */
 
       window.location.href =
         "dashboard.html";
 
+
     } catch (error) {
+
       console.error(
-        "Create account error:",
+        "Destiny Marketplace account creation error:",
         error
       );
 
 
-      /* -----------------------------------------------------
-         FIREBASE ERROR MESSAGES
-      ----------------------------------------------------- */
+      /* =====================================================
+         FIREBASE ERROR HANDLING
+      ===================================================== */
 
       switch (error.code) {
 
         case "auth/email-already-in-use":
-          showError(
+
+          showMessage(
             "An account with this email already exists."
           );
+
           break;
+
 
         case "auth/invalid-email":
-          showError(
+
+          showMessage(
             "Please enter a valid email address."
           );
+
           break;
+
 
         case "auth/weak-password":
-          showError(
+
+          showMessage(
             "Your password is too weak. Please choose a stronger password."
           );
+
           break;
+
 
         case "auth/network-request-failed":
-          showError(
-            "Network error. Check your connection and try again."
+
+          showMessage(
+            "Network error. Please check your internet connection and try again."
           );
+
           break;
 
+
+        case "auth/operation-not-allowed":
+
+          showMessage(
+            "Email and password registration is currently unavailable."
+          );
+
+          break;
+
+
         default:
-          showError(
+
+          showMessage(
             "We couldn't create your account right now. Please try again."
           );
+
       }
 
+
       setLoading(false);
+
     }
+
   }
 );
