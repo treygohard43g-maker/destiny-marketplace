@@ -1,7 +1,7 @@
 /* =========================================================
    DESTINY MARKETPLACE
    CUSTOMER MARKETPLACE LOGIC
-   ========================================================= */
+========================================================= */
 
 import { auth, db } from "./firebase.js";
 
@@ -21,47 +21,23 @@ import {
    DOM ELEMENTS
 ========================================================= */
 
-const sidebar =
-  document.getElementById("dashboardSidebar");
+const sidebar = document.getElementById("dashboardSidebar");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+const mobileMenuButton = document.getElementById("mobileMenuButton");
+const sidebarClose = document.getElementById("sidebarClose");
+const logoutButton = document.getElementById("logoutButton");
 
-const sidebarOverlay =
-  document.getElementById("sidebarOverlay");
+const productSearch = document.getElementById("productSearch");
+const clearSearch = document.getElementById("clearSearch");
+const clearSearchButton = document.getElementById("clearSearchButton");
 
-const mobileMenuButton =
-  document.getElementById("mobileMenuButton");
+const categoryList = document.getElementById("categoryList");
+const productSort = document.getElementById("productSort");
+const productGrid = document.getElementById("productGrid");
 
-const sidebarClose =
-  document.getElementById("sidebarClose");
-
-const logoutButton =
-  document.getElementById("logoutButton");
-
-const productSearch =
-  document.getElementById("productSearch");
-
-const clearSearch =
-  document.getElementById("clearSearch");
-
-const clearSearchButton =
-  document.getElementById("clearSearchButton");
-
-const categoryList =
-  document.getElementById("categoryList");
-
-const productSort =
-  document.getElementById("productSort");
-
-const productGrid =
-  document.getElementById("productGrid");
-
-const productsLoading =
-  document.getElementById("productsLoading");
-
-const productsEmpty =
-  document.getElementById("productsEmpty");
-
-const productsError =
-  document.getElementById("productsError");
+const productsLoading = document.getElementById("productsLoading");
+const productsEmpty = document.getElementById("productsEmpty");
+const productsError = document.getElementById("productsError");
 
 const productsEmptyMessage =
   document.getElementById("productsEmptyMessage");
@@ -101,7 +77,7 @@ const headerCartCount =
 
 
 /* =========================================================
-   MARKETPLACE SECTION ELEMENTS
+   MARKETPLACE SECTIONS
 ========================================================= */
 
 const flashDealsGrid =
@@ -128,13 +104,9 @@ const productsSection =
 ========================================================= */
 
 let allProducts = [];
-
 let activeCategory = "all";
-
 let currentSearch = "";
-
 let currentSort = "newest";
-
 let toastTimer = null;
 
 
@@ -158,28 +130,25 @@ onAuthStateChanged(
 
     if (!user) {
 
-      window.location.href =
-        "login.html";
+      window.location.href = "login.html";
 
       return;
     }
-
 
     try {
 
       await reload(user);
 
+      const currentUser = auth.currentUser;
 
-      if (!auth.currentUser) {
+      if (!currentUser) {
 
-        window.location.href =
-          "login.html";
+        window.location.href = "login.html";
 
         return;
       }
 
-
-      if (!auth.currentUser.emailVerified) {
+      if (!currentUser.emailVerified) {
 
         await signOut(auth);
 
@@ -188,7 +157,6 @@ onAuthStateChanged(
 
         return;
       }
-
 
       await loadCustomerProfile();
 
@@ -219,19 +187,16 @@ onAuthStateChanged(
 
 async function loadCustomerProfile() {
 
-  const user =
-    auth.currentUser;
+  const user = auth.currentUser;
 
   if (!user) {
     return;
   }
 
-
   const fallbackName =
     user.displayName ||
     user.email?.split("@")[0] ||
     "Customer";
-
 
   const firstLetter =
     fallbackName
@@ -239,20 +204,12 @@ async function loadCustomerProfile() {
       .charAt(0)
       .toUpperCase() || "D";
 
-
   if (sidebarUserName) {
-
-    sidebarUserName.textContent =
-      fallbackName;
-
+    sidebarUserName.textContent = fallbackName;
   }
 
-
   if (sidebarAvatar) {
-
-    sidebarAvatar.textContent =
-      firstLetter;
-
+    sidebarAvatar.textContent = firstLetter;
   }
 
 }
@@ -266,7 +223,6 @@ async function loadProducts() {
 
   showProductsLoading();
 
-
   try {
 
     const productsReference =
@@ -275,32 +231,24 @@ async function loadProducts() {
         PRODUCTS_COLLECTION
       );
 
-
     const snapshot =
       await getDocs(
         productsReference
       );
 
-
     allProducts =
       snapshot.docs
-
         .map(
-          (documentSnapshot) => {
-
-            return normalizeProduct(
+          (documentSnapshot) =>
+            normalizeProduct(
               documentSnapshot.id,
               documentSnapshot.data()
-            );
-
-          }
+            )
         )
-
         .filter(
           (product) =>
             isProductVisible(product)
         );
-
 
     renderMarketplace();
 
@@ -311,9 +259,7 @@ async function loadProducts() {
       error
     );
 
-
     showProductsError();
-
 
     showToast(
       "Unable to load marketplace products."
@@ -325,13 +271,10 @@ async function loadProducts() {
 
 
 /* =========================================================
-   NORMALIZE PRODUCT DATA
+   NORMALIZE PRODUCT
 ========================================================= */
 
-function normalizeProduct(
-  id,
-  data
-) {
+function normalizeProduct(id, data) {
 
   return {
 
@@ -349,23 +292,17 @@ function normalizeProduct(
 
     category:
       typeof data.category === "string"
-        ? normalizeCategory(
-            data.category
-          )
+        ? normalizeCategory(data.category)
         : "other",
 
     price:
-      Number.isFinite(
-        Number(data.price)
-      )
+      Number.isFinite(Number(data.price))
         ? Number(data.price)
         : 0,
 
     currency:
       typeof data.currency === "string"
-        ? data.currency
-            .trim()
-            .toUpperCase()
+        ? data.currency.trim().toUpperCase()
         : "USD",
 
     imageUrl:
@@ -382,9 +319,7 @@ function normalizeProduct(
 
     status:
       typeof data.status === "string"
-        ? data.status
-            .trim()
-            .toLowerCase()
+        ? data.status.trim().toLowerCase()
         : "active",
 
     featured:
@@ -394,9 +329,7 @@ function normalizeProduct(
       data.flashDeal === true,
 
     discount:
-      Number.isFinite(
-        Number(data.discount)
-      )
+      Number.isFinite(Number(data.discount))
         ? Number(data.discount)
         : 0,
 
@@ -415,9 +348,7 @@ function normalizeProduct(
    CATEGORY NORMALIZATION
 ========================================================= */
 
-function normalizeCategory(
-  category
-) {
+function normalizeCategory(category) {
 
   return category
     .trim()
@@ -431,41 +362,30 @@ function normalizeCategory(
    PRODUCT VISIBILITY
 ========================================================= */
 
-function isProductVisible(
-  product
-) {
+function isProductVisible(product) {
 
   const unavailableStatuses = [
-
     "inactive",
     "unavailable",
     "archived",
     "draft",
     "deleted"
-
   ];
-
 
   if (
     unavailableStatuses.includes(
       product.status
     )
   ) {
-
     return false;
-
   }
-
 
   if (
     product.stock !== null &&
     product.stock <= 0
   ) {
-
     return false;
-
   }
-
 
   return true;
 
@@ -473,20 +393,13 @@ function isProductVisible(
 
 
 /* =========================================================
-   MAIN MARKETPLACE RENDER
+   MAIN MARKETPLACE
 ========================================================= */
 
 function renderMarketplace() {
 
   const hasSearch =
     currentSearch.trim().length > 0;
-
-
-  /*
-   * Search mode:
-   * Hide the normal marketplace sections and
-   * show the complete search result collection.
-   */
 
   if (hasSearch) {
 
@@ -496,11 +409,6 @@ function renderMarketplace() {
 
     return;
   }
-
-
-  /*
-   * Normal marketplace mode.
-   */
 
   showMarketplaceSections();
 
@@ -512,7 +420,7 @@ function renderMarketplace() {
 
 
 /* =========================================================
-   HOME MARKETPLACE SECTIONS
+   HOME SECTIONS
 ========================================================= */
 
 function renderHomeSections() {
@@ -522,18 +430,15 @@ function renderHomeSections() {
     getFlashDeals()
   );
 
-
   renderSectionProducts(
     featuredGrid,
     getFeaturedProducts()
   );
 
-
   renderSectionProducts(
     recommendedGrid,
     getRecommendedProducts()
   );
-
 
   renderSectionProducts(
     newArrivalsGrid,
@@ -556,34 +461,21 @@ function getFlashDeals() {
         product.discount > 0
     );
 
-
-  /*
-   * If the admin has not yet added flash-deal
-   * metadata, do not invent discounts.
-   *
-   * We simply show the section with available
-   * products so the marketplace does not look
-   * artificially populated.
-   */
-
   if (products.length > 0) {
 
-    return sortNewest(
-      products
-    ).slice(0, 8);
+    return sortNewest(products)
+      .slice(0, 8);
 
   }
 
-
-  return sortNewest(
-    allProducts
-  ).slice(0, 8);
+  return sortNewest(allProducts)
+    .slice(0, 8);
 
 }
 
 
 /* =========================================================
-   FEATURED PRODUCTS
+   FEATURED
 ========================================================= */
 
 function getFeaturedProducts() {
@@ -594,45 +486,27 @@ function getFeaturedProducts() {
         product.featured === true
     );
 
-
   if (featured.length > 0) {
 
-    return sortNewest(
-      featured
-    ).slice(0, 8);
+    return sortNewest(featured)
+      .slice(0, 8);
 
   }
 
-
-  return sortNewest(
-    allProducts
-  ).slice(0, 8);
+  return sortNewest(allProducts)
+    .slice(0, 8);
 
 }
 
 
 /* =========================================================
-   RECOMMENDED PRODUCTS
+   RECOMMENDED
 ========================================================= */
 
 function getRecommendedProducts() {
 
-  /*
-   * Recommendation logic can later use:
-   *
-   * - customer order history
-   * - viewed products
-   * - categories
-   * - favorites
-   * - location
-   *
-   * For now we use the newest available products
-   * without pretending this is personalized AI.
-   */
-
-  return sortNewest(
-    allProducts
-  ).slice(0, 8);
+  return sortNewest(allProducts)
+    .slice(0, 8);
 
 }
 
@@ -643,9 +517,8 @@ function getRecommendedProducts() {
 
 function getNewArrivals() {
 
-  return sortNewest(
-    allProducts
-  ).slice(0, 8);
+  return sortNewest(allProducts)
+    .slice(0, 8);
 
 }
 
@@ -654,9 +527,7 @@ function getNewArrivals() {
    SORT NEWEST
 ========================================================= */
 
-function sortNewest(
-  products
-) {
+function sortNewest(products) {
 
   return [...products].sort(
     (a, b) =>
@@ -668,7 +539,7 @@ function sortNewest(
 
 
 /* =========================================================
-   SECTION PRODUCT RENDERING
+   SECTION PRODUCT RENDER
 ========================================================= */
 
 function renderSectionProducts(
@@ -680,14 +551,12 @@ function renderSectionProducts(
     return;
   }
 
-
   if (!products.length) {
 
     container.innerHTML = "";
 
     return;
   }
-
 
   container.innerHTML =
     products
@@ -697,16 +566,13 @@ function renderSectionProducts(
       )
       .join("");
 
-
-  attachProductCardEvents(
-    container
-  );
+  attachProductCardEvents(container);
 
 }
 
 
 /* =========================================================
-   MAIN PRODUCT COLLECTION
+   MAIN PRODUCTS
 ========================================================= */
 
 function renderMainProductCollection() {
@@ -714,15 +580,10 @@ function renderMainProductCollection() {
   const filteredProducts =
     getFilteredProducts();
 
-
   const sortedProducts =
-    sortProducts(
-      filteredProducts
-    );
-
+    sortProducts(filteredProducts);
 
   updateMarketplaceHeading();
-
 
   if (!sortedProducts.length) {
 
@@ -731,13 +592,9 @@ function renderMainProductCollection() {
     return;
   }
 
-
   hideProductsEmpty();
 
-
-  renderProducts(
-    sortedProducts
-  );
+  renderProducts(sortedProducts);
 
 }
 
@@ -751,15 +608,10 @@ function renderSearchResults() {
   const filteredProducts =
     getFilteredProducts();
 
-
   const sortedProducts =
-    sortProducts(
-      filteredProducts
-    );
-
+    sortProducts(filteredProducts);
 
   updateMarketplaceHeading();
-
 
   if (!sortedProducts.length) {
 
@@ -768,19 +620,9 @@ function renderSearchResults() {
     return;
   }
 
-
   hideProductsEmpty();
 
-
-  renderProducts(
-    sortedProducts
-  );
-
-
-  productsSection?.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
+  renderProducts(sortedProducts);
 
 }
 
@@ -796,42 +638,30 @@ function getFilteredProducts() {
       .trim()
       .toLowerCase();
 
-
   return allProducts.filter(
     (product) => {
 
       const matchesCategory =
         activeCategory === "all" ||
-        product.category ===
-          activeCategory;
-
+        product.category === activeCategory;
 
       if (!matchesCategory) {
         return false;
       }
 
-
       if (!search) {
         return true;
       }
 
-
       const searchableText = [
-
         product.name,
-
         product.description,
-
         product.category
-
       ]
         .join(" ")
         .toLowerCase();
 
-
-      return searchableText.includes(
-        search
-      );
+      return searchableText.includes(search);
 
     }
   );
@@ -843,17 +673,11 @@ function getFilteredProducts() {
    SORT PRODUCTS
 ========================================================= */
 
-function sortProducts(
-  products
-) {
+function sortProducts(products) {
 
-  const sorted =
-    [...products];
+  const sorted = [...products];
 
-
-  switch (
-    currentSort
-  ) {
+  switch (currentSort) {
 
     case "price-low":
 
@@ -864,7 +688,6 @@ function sortProducts(
 
       break;
 
-
     case "price-high":
 
       sorted.sort(
@@ -874,7 +697,6 @@ function sortProducts(
 
       break;
 
-
     case "name":
 
       sorted.sort(
@@ -883,14 +705,12 @@ function sortProducts(
             b.name,
             undefined,
             {
-              sensitivity:
-                "base"
+              sensitivity: "base"
             }
           )
       );
 
       break;
-
 
     case "newest":
 
@@ -898,18 +718,13 @@ function sortProducts(
 
       sorted.sort(
         (a, b) =>
-          getTimestamp(
-            b.createdAt
-          ) -
-          getTimestamp(
-            a.createdAt
-          )
+          getTimestamp(b.createdAt) -
+          getTimestamp(a.createdAt)
       );
 
       break;
 
   }
-
 
   return sorted;
 
@@ -917,62 +732,45 @@ function sortProducts(
 
 
 /* =========================================================
-   TIMESTAMP HELPER
+   TIMESTAMP
 ========================================================= */
 
-function getTimestamp(
-  value
-) {
+function getTimestamp(value) {
 
   if (!value) {
     return 0;
   }
 
-
   if (
-    typeof value.toMillis ===
-    "function"
+    typeof value.toMillis === "function"
   ) {
 
     return value.toMillis();
 
   }
 
-
-  if (
-    value instanceof Date
-  ) {
+  if (value instanceof Date) {
 
     return value.getTime();
 
   }
 
-
-  if (
-    typeof value === "number"
-  ) {
+  if (typeof value === "number") {
 
     return value;
 
   }
 
-
-  if (
-    typeof value === "string"
-  ) {
+  if (typeof value === "string") {
 
     const timestamp =
       Date.parse(value);
 
-
-    return Number.isNaN(
-      timestamp
-    )
+    return Number.isNaN(timestamp)
       ? 0
       : timestamp;
 
   }
-
 
   return 0;
 
@@ -980,17 +778,14 @@ function getTimestamp(
 
 
 /* =========================================================
-   RENDER PRODUCT GRID
+   PRODUCT GRID
 ========================================================= */
 
-function renderProducts(
-  products
-) {
+function renderProducts(products) {
 
   if (!productGrid) {
     return;
   }
-
 
   productGrid.innerHTML =
     products
@@ -1000,21 +795,18 @@ function renderProducts(
       )
       .join("");
 
+  productGrid.hidden = false;
 
-  attachProductCardEvents(
-    productGrid
-  );
+  attachProductCardEvents(productGrid);
 
 }
 
 
 /* =========================================================
-   CREATE PRODUCT CARD
+   PRODUCT CARD
 ========================================================= */
 
-function createProductCard(
-  product
-) {
+function createProductCard(product) {
 
   const formattedPrice =
     formatPrice(
@@ -1022,24 +814,18 @@ function createProductCard(
       product.currency
     );
 
-
   const categoryName =
     formatCategoryName(
       product.category
     );
-
 
   const imageMarkup =
     product.imageUrl
 
       ? `
         <img
-          src="${escapeAttribute(
-            product.imageUrl
-          )}"
-          alt="${escapeAttribute(
-            product.name
-          )}"
+          src="${escapeAttribute(product.imageUrl)}"
+          alt="${escapeAttribute(product.name)}"
           class="product-image"
           loading="lazy"
           onerror="this.style.display='none'; this.nextElementSibling.hidden=false;"
@@ -1059,29 +845,23 @@ function createProductCard(
         </div>
       `;
 
-
   const discountMarkup =
     product.discount > 0
 
       ? `
         <span class="product-discount">
           -${escapeHtml(
-            String(
-              product.discount
-            )
+            String(product.discount)
           )}%
         </span>
       `
 
       : "";
 
-
   return `
     <article
       class="product-card"
-      data-product-id="${escapeAttribute(
-        product.id
-      )}"
+      data-product-id="${escapeAttribute(product.id)}"
     >
 
       <div class="product-image-wrap">
@@ -1089,24 +869,18 @@ function createProductCard(
         ${imageMarkup}
 
         <span class="product-category">
-          ${escapeHtml(
-            categoryName
-          )}
+          ${escapeHtml(categoryName)}
         </span>
 
         ${discountMarkup}
 
       </div>
 
-
       <div class="product-card-body">
 
         <h3 class="product-name">
-          ${escapeHtml(
-            product.name
-          )}
+          ${escapeHtml(product.name)}
         </h3>
-
 
         ${
           product.description
@@ -1123,7 +897,6 @@ function createProductCard(
             : ""
         }
 
-
         <div class="product-card-bottom">
 
           <div class="product-price">
@@ -1133,30 +906,21 @@ function createProductCard(
             </span>
 
             <strong>
-              ${escapeHtml(
-                formattedPrice
-              )}
+              ${escapeHtml(formattedPrice)}
             </strong>
 
           </div>
 
-
           <button
             type="button"
             class="add-to-cart-button"
-            data-add-to-cart="${escapeAttribute(
-              product.id
-            )}"
-            aria-label="Add ${escapeAttribute(
-              product.name
-            )} to cart"
+            data-add-to-cart="${escapeAttribute(product.id)}"
+            aria-label="Add ${escapeAttribute(product.name)} to cart"
           >
 
             <i class="fa-solid fa-cart-plus"></i>
 
-            <span>
-              Add
-            </span>
+            <span>Add</span>
 
           </button>
 
@@ -1183,22 +947,19 @@ function attachProductCardEvents(
       "[data-add-to-cart]"
     );
 
-
   addButtons.forEach(
     (button) => {
 
       button.addEventListener(
         "click",
-        () => {
+        (event) => {
+
+          event.stopPropagation();
 
           const productId =
-            button.dataset
-              .addToCart;
+            button.dataset.addToCart;
 
-
-          addToCart(
-            productId
-          );
+          addToCart(productId);
 
         }
       );
@@ -1222,21 +983,14 @@ function getCart() {
         CART_STORAGE_KEY
       );
 
-
     if (!storedCart) {
       return [];
     }
 
-
     const parsed =
-      JSON.parse(
-        storedCart
-      );
+      JSON.parse(storedCart);
 
-
-    return Array.isArray(
-      parsed
-    )
+    return Array.isArray(parsed)
       ? parsed
       : [];
 
@@ -1246,7 +1000,6 @@ function getCart() {
       "Unable to read cart:",
       error
     );
-
 
     return [];
 
@@ -1259,17 +1012,13 @@ function getCart() {
    SAVE CART
 ========================================================= */
 
-function saveCart(
-  cart
-) {
+function saveCart(cart) {
 
   try {
 
     localStorage.setItem(
       CART_STORAGE_KEY,
-      JSON.stringify(
-        cart
-      )
+      JSON.stringify(cart)
     );
 
   } catch (error) {
@@ -1288,17 +1037,13 @@ function saveCart(
    ADD TO CART
 ========================================================= */
 
-function addToCart(
-  productId
-) {
+function addToCart(productId) {
 
   const product =
     allProducts.find(
       (item) =>
-        item.id ===
-        productId
+        item.id === productId
     );
-
 
   if (!product) {
 
@@ -1309,18 +1054,13 @@ function addToCart(
     return;
   }
 
-
-  const cart =
-    getCart();
-
+  const cart = getCart();
 
   const existingItem =
     cart.find(
       (item) =>
-        item.productId ===
-        productId
+        item.productId === productId
     );
-
 
   if (existingItem) {
 
@@ -1329,23 +1069,15 @@ function addToCart(
   } else {
 
     cart.push({
-
       productId,
-
       quantity: 1
-
     });
 
   }
 
-
-  saveCart(
-    cart
-  );
-
+  saveCart(cart);
 
   updateCartCount();
-
 
   showToast(
     `${product.name} added to your cart.`
@@ -1360,26 +1092,20 @@ function addToCart(
 
 function updateCartCount() {
 
-  const cart =
-    getCart();
-
+  const cart = getCart();
 
   const count =
     cart.reduce(
       (total, item) =>
         total +
-        Number(
-          item.quantity || 0
-        ),
+        Number(item.quantity || 0),
       0
     );
-
 
   updateCountElement(
     cartCount,
     count
   );
-
 
   updateCountElement(
     headerCartCount,
@@ -1388,10 +1114,6 @@ function updateCartCount() {
 
 }
 
-
-/* =========================================================
-   COUNT ELEMENT
-========================================================= */
 
 function updateCountElement(
   element,
@@ -1402,7 +1124,6 @@ function updateCountElement(
     return;
   }
 
-
   if (count > 0) {
 
     element.textContent =
@@ -1410,18 +1131,13 @@ function updateCountElement(
         ? "99+"
         : String(count);
 
-
-    element.hidden =
-      false;
+    element.hidden = false;
 
   } else {
 
-    element.textContent =
-      "0";
+    element.textContent = "0";
 
-
-    element.hidden =
-      true;
+    element.hidden = true;
 
   }
 
@@ -1441,9 +1157,7 @@ if (productSearch) {
       currentSearch =
         productSearch.value;
 
-
       updateSearchControls();
-
 
       renderMarketplace();
 
@@ -1476,45 +1190,27 @@ if (clearSearchButton) {
 function clearSearchInput() {
 
   if (productSearch) {
-
-    productSearch.value =
-      "";
-
+    productSearch.value = "";
   }
 
-
-  currentSearch =
-    "";
-
+  currentSearch = "";
 
   updateSearchControls();
 
-
   renderMarketplace();
-
 
   productSearch?.focus();
 
 }
 
 
-/* =========================================================
-   SEARCH CONTROLS
-========================================================= */
-
 function updateSearchControls() {
 
   const hasSearch =
-    currentSearch
-      .trim()
-      .length > 0;
-
+    currentSearch.trim().length > 0;
 
   if (clearSearch) {
-
-    clearSearch.hidden =
-      !hasSearch;
-
+    clearSearch.hidden = !hasSearch;
   }
 
 }
@@ -1535,23 +1231,17 @@ if (categoryList) {
           "[data-category]"
         );
 
-
       if (!categoryButton) {
         return;
       }
 
-
       activeCategory =
-        categoryButton.dataset
-          .category ||
+        categoryButton.dataset.category ||
         "all";
-
 
       updateCategoryButtons();
 
-
       renderMarketplace();
-
 
       productsSection?.scrollIntoView({
         behavior: "smooth",
@@ -1564,23 +1254,16 @@ if (categoryList) {
 }
 
 
-/* =========================================================
-   UPDATE CATEGORY BUTTONS
-========================================================= */
-
 function updateCategoryButtons() {
 
   document
-    .querySelectorAll(
-      "[data-category]"
-    )
+    .querySelectorAll("[data-category]")
     .forEach(
       (button) => {
 
         button.classList.toggle(
           "active",
-          button.dataset
-            .category ===
+          button.dataset.category ===
             activeCategory
         );
 
@@ -1603,7 +1286,6 @@ if (productSort) {
       currentSort =
         productSort.value;
 
-
       renderMarketplace();
 
     }
@@ -1613,35 +1295,870 @@ if (productSort) {
 
 
 /* =========================================================
-   MARKETPLACE HEADING
+   SIDEBAR
+========================================================= */
+
+function openSidebar() {
+
+  if (!sidebar) {
+    return;
+  }
+
+  sidebar.classList.add("open");
+
+  sidebarOverlay?.classList.add("visible");
+
+  document.body.classList.add(
+    "sidebar-open"
+  );
+
+}
+
+
+function closeSidebar() {
+
+  sidebar?.classList.remove("open");
+
+  sidebarOverlay?.classList.remove(
+    "visible"
+  );
+
+  document.body.classList.remove(
+    "sidebar-open"
+  );
+
+}
+
+
+mobileMenuButton?.addEventListener(
+  "click",
+  openSidebar
+);
+
+
+sidebarClose?.addEventListener(
+  "click",
+  closeSidebar
+);
+
+
+sidebarOverlay?.addEventListener(
+  "click",
+  closeSidebar
+);
+
+
+/* =========================================================
+   DASHBOARD ACTIONS
+========================================================= */
+
+document.addEventListener(
+  "click",
+  (event) => {
+
+    const actionElement =
+      event.target.closest(
+        "[data-action]"
+      );
+
+    if (!actionElement) {
+      return;
+    }
+
+    const action =
+      actionElement.dataset.action;
+
+    if (!action) {
+      return;
+    }
+
+    event.preventDefault();
+
+    handleDashboardAction(action);
+
+  }
+);
+
+
+/* =========================================================
+   DASHBOARD ACTION HANDLER
+========================================================= */
+
+function handleDashboardAction(action) {
+
+  closeSidebar();
+
+  switch (action) {
+
+    case "marketplace":
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+      break;
+
+
+    case "categories":
+
+      activeCategory = "all";
+
+      updateCategoryButtons();
+
+      renderMarketplace();
+
+      categoriesSection?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      break;
+
+
+    case "phones":
+
+      selectCategory("phones");
+
+      break;
+
+
+    case "laptops":
+
+      selectCategory("laptops");
+
+      break;
+
+
+    case "electronics":
+
+      selectCategory("electronics");
+
+      break;
+
+
+    case "fashion":
+
+      selectCategory("fashion");
+
+      break;
+
+
+    case "shoes":
+
+      selectCategory("shoes");
+
+      break;
+
+
+    case "home":
+
+      selectCategory("home");
+
+      break;
+
+
+    case "giftcards":
+    case "buy-giftcards":
+
+      selectCategory("gift-cards");
+
+      break;
+
+
+    case "sim-cards":
+
+      selectCategory("sim-cards");
+
+      break;
+
+
+    case "cart":
+
+      handleCartAction();
+
+      break;
+
+
+    case "orders":
+
+      showToast(
+        "My Orders will be connected next."
+      );
+
+      break;
+
+
+    case "settings":
+
+      showToast(
+        "Account Settings will be connected next."
+      );
+
+      break;
+
+
+    case "support":
+
+      showToast(
+        "Help & Support will be connected next."
+      );
+
+      break;
+
+
+    case "buy-bitcoin":
+
+      showToast(
+        "Bitcoin purchase will be connected next."
+      );
+
+      break;
+
+
+    case "sell-bitcoin":
+
+      showToast(
+        "Bitcoin selling will be connected next."
+      );
+
+      break;
+
+
+    case "giftcard-exchange":
+
+      showToast(
+        "Gift Card Exchange will be connected next."
+      );
+
+      break;
+
+
+    default:
+
+      showToast(
+        "This marketplace feature is coming soon."
+      );
+
+  }
+
+}
+
+
+/* =========================================================
+   CATEGORY ACTION
+========================================================= */
+
+function selectCategory(category) {
+
+  activeCategory = category;
+
+  updateCategoryButtons();
+
+  currentSearch = "";
+
+  if (productSearch) {
+    productSearch.value = "";
+  }
+
+  updateSearchControls();
+
+  renderMarketplace();
+
+  productsSection?.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+}
+
+
+/* =========================================================
+   CART ACTION
+========================================================= */
+
+function handleCartAction() {
+
+  const cart = getCart();
+
+  if (!cart.length) {
+
+    showToast(
+      "Your cart is empty."
+    );
+
+    return;
+  }
+
+  showToast(
+    `You have ${cart.reduce(
+      (total, item) =>
+        total +
+        Number(item.quantity || 0),
+      0
+    )} item${
+      cart.reduce(
+        (total, item) =>
+          total +
+          Number(item.quantity || 0),
+        0
+      ) === 1
+        ? ""
+        : "s"
+    } in your cart.`
+  );
+
+}
+
+
+/* =========================================================
+   SECTION ACTIONS
+========================================================= */
+
+document.addEventListener(
+  "click",
+  (event) => {
+
+    const sectionButton =
+      event.target.closest(
+        "[data-section-action]"
+      );
+
+    if (!sectionButton) {
+      return;
+    }
+
+    const section =
+      sectionButton.dataset.sectionAction;
+
+    handleSectionAction(section);
+
+  }
+);
+
+
+function handleSectionAction(section) {
+
+  currentSearch = "";
+
+  if (productSearch) {
+    productSearch.value = "";
+  }
+
+  updateSearchControls();
+
+  switch (section) {
+
+    case "flash-deals":
+
+      scrollToSection(
+        flashDealsGrid
+      );
+
+      break;
+
+
+    case "featured":
+
+      scrollToSection(
+        featuredGrid
+      );
+
+      break;
+
+
+    case "recommended":
+
+      scrollToSection(
+        recommendedGrid
+      );
+
+      break;
+
+
+    case "new-arrivals":
+
+      scrollToSection(
+        newArrivalsGrid
+      );
+
+      break;
+
+  }
+
+}
+
+
+function scrollToSection(element) {
+
+  element?.closest(
+    ".marketplace-product-section"
+  )?.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+logoutButton?.addEventListener(
+  "click",
+  async () => {
+
+    try {
+
+      await signOut(auth);
+
+      window.location.href =
+        "login.html";
+
+    } catch (error) {
+
+      console.error(
+        "Logout failed:",
+        error
+      );
+
+      showToast(
+        "Unable to sign out. Please try again."
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   RETRY
+========================================================= */
+
+retryProductsButton?.addEventListener(
+  "click",
+  () => {
+
+    loadProducts();
+
+  }
+);
+
+
+/* =========================================================
+   EMPTY SEARCH
+========================================================= */
+
+clearSearchButton?.addEventListener(
+  "click",
+  clearSearchInput
+);
+
+
+/* =========================================================
+   HEADING
 ========================================================= */
 
 function updateMarketplaceHeading() {
 
   const hasSearch =
-    currentSearch
-      .trim()
-      .length > 0;
-
+    currentSearch.trim().length > 0;
 
   const hasCategory =
-    activeCategory !==
-    "all";
-
+    activeCategory !== "all";
 
   if (hasSearch) {
 
     if (productsKicker) {
-
       productsKicker.textContent =
         "Search";
-
     }
-
 
     if (productsTitle) {
-
       productsTitle.textContent =
         "Search results";
+    }
+
+    if (searchResultMessage) {
+      searchResultMessage.hidden = false;
+    }
+
+    if (searchTerm) {
+      searchTerm.textContent =
+        `"${currentSearch.trim()}"`;
+    }
+
+    return;
+  }
+
+  if (searchResultMessage) {
+    searchResultMessage.hidden = true;
+  }
+
+  if (hasCategory) {
+
+    if (productsKicker) {
+      productsKicker.textContent =
+        "Category";
+    }
+
+    if (productsTitle) {
+      productsTitle.textContent =
+        formatCategoryName(activeCategory);
+    }
+
+    return;
+  }
+
+  if (productsKicker) {
+    productsKicker.textContent =
+      "Marketplace";
+  }
+
+  if (productsTitle) {
+    productsTitle.textContent =
+      "More Products";
+  }
+
+}
+
+
+/* =========================================================
+   MARKETPLACE SECTIONS VISIBILITY
+========================================================= */
+
+function hideMarketplaceSections() {
+
+  document
+    .querySelectorAll(
+      ".marketplace-product-section"
+    )
+    .forEach(
+      (section) => {
+        section.hidden = true;
+      }
+    );
+
+}
+
+
+function showMarketplaceSections() {
+
+  document
+    .querySelectorAll(
+      ".marketplace-product-section"
+    )
+    .forEach(
+      (section) => {
+        section.hidden = false;
+      }
+    );
+
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+function showProductsLoading() {
+
+  productsLoading?.removeAttribute(
+    "hidden"
+  );
+
+  productGrid?.setAttribute(
+    "hidden",
+    ""
+  );
+
+  productsEmpty?.setAttribute(
+    "hidden",
+    ""
+  );
+
+  productsError?.setAttribute(
+    "hidden",
+    ""
+  );
+
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+function showProductsEmpty() {
+
+  productsLoading?.setAttribute(
+    "hidden",
+    ""
+  );
+
+  productGrid?.setAttribute(
+    "hidden",
+    ""
+  );
+
+  productsError?.setAttribute(
+    "hidden",
+    ""
+  );
+
+  productsEmpty?.removeAttribute(
+    "hidden"
+  );
+
+  const hasSearch =
+    currentSearch.trim().length > 0;
+
+  if (productsEmptyMessage) {
+
+    if (hasSearch) {
+
+      productsEmptyMessage.textContent =
+        `No products matched "${currentSearch.trim()}".`;
+
+    } else if (activeCategory !== "all") {
+
+      productsEmptyMessage.textContent =
+        `There are currently no available products in ${formatCategoryName(activeCategory)}.`;
+
+    } else {
+
+      productsEmptyMessage.textContent =
+        "There are currently no available products.";
 
     }
+
+  }
+
+}
+
+
+/* =========================================================
+   HIDE EMPTY
+========================================================= */
+
+function hideProductsEmpty() {
+
+  productsLoading?.setAttribute(
+    "hidden",
+    ""
+  );
+
+  productsEmpty?.setAttribute(
+    "hidden",
+    ""
+  );
+
+  productsError?.setAttribute(
+    "hidden",
+    ""
+  );
+
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+function showProductsError() {
+
+  productsLoading?.setAttribute(
+    "hidden",
+    ""
+  );
+
+  productGrid?.setAttribute(
+    "hidden",
+    ""
+  );
+
+  productsEmpty?.setAttribute(
+    "hidden",
+    ""
+  );
+
+  productsError?.removeAttribute(
+    "hidden"
+  );
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message) {
+
+  if (!dashboardToast) {
+    return;
+  }
+
+  if (toastMessage) {
+    toastMessage.textContent = message;
+  }
+
+  dashboardToast.classList.add(
+    "show"
+  );
+
+  clearTimeout(toastTimer);
+
+  toastTimer =
+    setTimeout(
+      () => {
+
+        dashboardToast.classList.remove(
+          "show"
+        );
+
+      },
+      3000
+    );
+
+}
+
+
+/* =========================================================
+   PRICE FORMAT
+========================================================= */
+
+function formatPrice(
+  price,
+  currency
+) {
+
+  const safePrice =
+    Number.isFinite(Number(price))
+      ? Number(price)
+      : 0;
+
+  const safeCurrency =
+    typeof currency === "string" &&
+    currency.length === 3
+      ? currency
+      : "USD";
+
+  try {
+
+    return new Intl.NumberFormat(
+      undefined,
+      {
+        style: "currency",
+        currency: safeCurrency,
+        maximumFractionDigits: 2
+      }
+    ).format(safePrice);
+
+  } catch (error) {
+
+    return `${safeCurrency} ${safePrice.toFixed(2)}`;
+
+  }
+
+}
+
+
+/* =========================================================
+   CATEGORY NAME
+========================================================= */
+
+function formatCategoryName(category) {
+
+  if (!category) {
+    return "Other";
+  }
+
+  return category
+    .split("-")
+    .map(
+      (word) =>
+        word.charAt(0).toUpperCase() +
+        word.slice(1)
+    )
+    .join(" ");
+
+}
+
+
+/* =========================================================
+   TEXT TRUNCATION
+========================================================= */
+
+function truncateText(
+  text,
+  maxLength
+) {
+
+  if (!text) {
+    return "";
+  }
+
+  if (text.length <= maxLength) {
+    return text;
+  }
+
+  return (
+    text
+      .slice(0, maxLength)
+      .trimEnd() +
+    "..."
+  );
+
+}
+
+
+/* =========================================================
+   HTML ESCAPING
+========================================================= */
+
+function escapeHtml(value) {
+
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+function escapeAttribute(value) {
+
+  return escapeHtml(value);
+
+}
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  (event) => {
+
+    if (event.key === "Escape") {
+
+      closeSidebar();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   INITIAL SEARCH STATE
+========================================================= */
+
+updateSearchControls();
+updateCartCount();
