@@ -1,3 +1,7 @@
+// =========================================================
+// DESTINY MARKETPLACE — ACCOUNT CREATION
+// =========================================================
+
 import { auth, db } from "./firebase.js";
 
 import {
@@ -12,18 +16,11 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
-/* =========================================================
-   DESTINY MARKETPLACE
-   CREATE ACCOUNT
-========================================================= */
+// =========================================================
+// FORM ELEMENTS
+// =========================================================
 
-
-/* =========================================================
-   FORM ELEMENTS
-========================================================= */
-
-const signupForm =
-  document.getElementById("signupForm");
+const signupForm = document.getElementById("signupForm");
 
 const fullNameInput =
   document.getElementById("signupFullName");
@@ -56,36 +53,27 @@ const signupButton =
   document.getElementById("signupButton");
 
 
-/* =========================================================
-   MESSAGE HELPERS
-========================================================= */
+// =========================================================
+// UI HELPERS
+// =========================================================
 
 function showMessage(message) {
-
   if (!signupMessage) return;
 
   signupMessage.textContent = message;
-
   signupMessage.classList.add("show");
 }
 
 
 function clearMessage() {
-
   if (!signupMessage) return;
 
   signupMessage.textContent = "";
-
   signupMessage.classList.remove("show");
 }
 
 
-/* =========================================================
-   BUTTON STATE
-========================================================= */
-
 function setLoading(isLoading) {
-
   if (!signupButton) return;
 
   signupButton.disabled = isLoading;
@@ -96,12 +84,11 @@ function setLoading(isLoading) {
 }
 
 
-/* =========================================================
-   VALIDATION
-========================================================= */
+// =========================================================
+// FORM VALIDATION
+// =========================================================
 
 function validateForm() {
-
   const fullName =
     fullNameInput?.value.trim() || "";
 
@@ -121,124 +108,71 @@ function validateForm() {
     confirmPasswordInput?.value || "";
 
 
-  /* Full name */
-
   if (!fullName) {
-
-    showMessage(
-      "Please enter your full name."
-    );
-
+    showMessage("Please enter your full name.");
     fullNameInput?.focus();
-
     return false;
   }
 
-
-  /* Email */
 
   if (!email) {
-
-    showMessage(
-      "Please enter your email address."
-    );
-
+    showMessage("Please enter your email address.");
     emailInput?.focus();
-
     return false;
   }
 
-
-  /* Country */
 
   if (!country) {
-
-    showMessage(
-      "Please select your country."
-    );
-
+    showMessage("Please select your country.");
     countryInput?.focus();
-
     return false;
   }
 
-
-  /* Phone */
 
   if (!phone) {
-
-    showMessage(
-      "Please enter your phone number."
-    );
-
+    showMessage("Please enter your phone number.");
     phoneInput?.focus();
-
     return false;
   }
 
 
-  /* Password */
-
   if (!password) {
-
-    showMessage(
-      "Please create a password."
-    );
-
+    showMessage("Please create a password.");
     passwordInput?.focus();
-
     return false;
   }
 
 
   if (password.length < 8) {
-
     showMessage(
       "Your password must be at least 8 characters."
     );
 
     passwordInput?.focus();
-
     return false;
   }
 
 
-  /* Confirm password */
-
   if (!confirmPassword) {
-
-    showMessage(
-      "Please confirm your password."
-    );
-
+    showMessage("Please confirm your password.");
     confirmPasswordInput?.focus();
-
     return false;
   }
 
 
   if (password !== confirmPassword) {
-
-    showMessage(
-      "Your passwords do not match."
-    );
-
+    showMessage("Your passwords do not match.");
     confirmPasswordInput?.focus();
-
     return false;
   }
 
 
-  /* Terms */
-
   if (!termsInput?.checked) {
-
     showMessage(
       "Please agree to the Terms of Service and Privacy Policy."
     );
 
     termsInput?.focus();
-
     return false;
   }
 
@@ -247,33 +181,29 @@ function validateForm() {
 }
 
 
-/* =========================================================
-   CREATE ACCOUNT
-========================================================= */
+// =========================================================
+// ACCOUNT CREATION
+// =========================================================
 
 signupForm?.addEventListener(
   "submit",
   async (event) => {
-
     event.preventDefault();
 
     clearMessage();
 
 
-    /* Validate */
-
+    // Validate before contacting Firebase.
     if (!validateForm()) {
       return;
     }
 
 
-    /* Collect values */
-
     const fullName =
       fullNameInput.value.trim();
 
     const email =
-      emailInput.value.trim();
+      emailInput.value.trim().toLowerCase();
 
     const country =
       countryInput.value;
@@ -293,9 +223,9 @@ signupForm?.addEventListener(
 
     try {
 
-      /* =====================================================
-         CREATE FIREBASE AUTH ACCOUNT
-      ===================================================== */
+      // ---------------------------------------------------
+      // 1. Create Firebase Authentication account
+      // ---------------------------------------------------
 
       const userCredential =
         await createUserWithEmailAndPassword(
@@ -309,23 +239,32 @@ signupForm?.addEventListener(
         userCredential.user;
 
 
-      /* =====================================================
-         SAVE DISPLAY NAME TO FIREBASE AUTH
-      ===================================================== */
+      // ---------------------------------------------------
+      // 2. Store the customer's display name in Firebase
+      // Authentication
+      // ---------------------------------------------------
 
       await updateProfile(user, {
         displayName: fullName
       });
 
 
-      /* =====================================================
-         CREATE USER DOCUMENT
-      ===================================================== */
+      // ---------------------------------------------------
+      // 3. Create the customer's Firestore profile
+      // ---------------------------------------------------
+      //
+      // IMPORTANT:
+      // The role is always assigned as "customer".
+      //
+      // We do NOT allow the browser/user to choose their
+      // own role.
+      //
+      // Initial balances are always zero.
+      // ---------------------------------------------------
 
       await setDoc(
         doc(db, "users", user.uid),
         {
-
           uid: user.uid,
 
           name: fullName,
@@ -338,6 +277,8 @@ signupForm?.addEventListener(
 
           phone: phone,
 
+          role: "customer",
+
           currency: "USD",
 
           usdBalance: 0,
@@ -347,18 +288,16 @@ signupForm?.addEventListener(
           createdAt: serverTimestamp(),
 
           updatedAt: serverTimestamp()
-
         }
       );
 
 
-      /* =====================================================
-         SUCCESS
-      ===================================================== */
+      // ---------------------------------------------------
+      // 4. Account successfully created
+      // ---------------------------------------------------
 
       window.location.href =
         "dashboard.html";
-
 
     } catch (error) {
 
@@ -368,9 +307,9 @@ signupForm?.addEventListener(
       );
 
 
-      /* =====================================================
-         FIREBASE ERROR HANDLING
-      ===================================================== */
+      // ---------------------------------------------------
+      // Firebase Authentication errors
+      // ---------------------------------------------------
 
       switch (error.code) {
 
@@ -419,18 +358,26 @@ signupForm?.addEventListener(
           break;
 
 
+        case "permission-denied":
+
+        case "firestore/permission-denied":
+
+          showMessage(
+            "Your account was created, but we couldn't finish setting up your profile. Please contact support."
+          );
+
+          break;
+
+
         default:
 
           showMessage(
             "We couldn't create your account right now. Please try again."
           );
-
       }
 
 
       setLoading(false);
-
     }
-
   }
 );
