@@ -1,28 +1,58 @@
 import { auth } from "./firebase.js";
 
 import {
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  setPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
-const loginForm = document.getElementById("loginForm");
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-const loginButton = document.getElementById("loginButton");
-const errorMessage = document.getElementById("errorMessage");
 
-function showError(message) {
-  if (!errorMessage) return;
+/* =========================================================
+   DESTINY MARKETPLACE — LOGIN
+========================================================= */
 
-  errorMessage.textContent = message;
-  errorMessage.classList.add("show");
+const loginForm =
+  document.getElementById("loginForm");
+
+const emailInput =
+  document.getElementById("loginEmail");
+
+const passwordInput =
+  document.getElementById("loginPassword");
+
+const rememberMe =
+  document.getElementById("rememberMe");
+
+const loginButton =
+  document.getElementById("loginButton");
+
+const loginMessage =
+  document.getElementById("loginMessage");
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function showMessage(message) {
+  if (!loginMessage) return;
+
+  loginMessage.textContent = message;
+  loginMessage.classList.add("show");
 }
 
-function clearError() {
-  if (!errorMessage) return;
+function clearMessage() {
+  if (!loginMessage) return;
 
-  errorMessage.textContent = "";
-  errorMessage.classList.remove("show");
+  loginMessage.textContent = "";
+  loginMessage.classList.remove("show");
 }
+
+
+/* =========================================================
+   BUTTON STATE
+========================================================= */
 
 function setLoading(isLoading) {
   if (!loginButton) return;
@@ -34,65 +64,162 @@ function setLoading(isLoading) {
     : "Sign in";
 }
 
-loginForm?.addEventListener("submit", async (event) => {
-  event.preventDefault();
 
-  clearError();
+/* =========================================================
+   LOGIN
+========================================================= */
 
-  const email = emailInput?.value.trim() || "";
-  const password = passwordInput?.value || "";
+loginForm?.addEventListener(
+  "submit",
+  async (event) => {
 
-  if (!email || !password) {
-    showError("Please enter your email and password.");
-    return;
-  }
+    event.preventDefault();
 
-  setLoading(true);
+    clearMessage();
 
-  try {
-    await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
 
-    window.location.href = "dashboard.html";
+    const email =
+      emailInput?.value.trim() || "";
 
-  } catch (error) {
-    console.error("Login error:", error);
+    const password =
+      passwordInput?.value || "";
 
-    switch (error.code) {
-      case "auth/invalid-email":
-        showError("Please enter a valid email address.");
-        break;
 
-      case "auth/user-not-found":
-      case "auth/invalid-credential":
-        showError("Incorrect email or password.");
-        break;
+    /* -------------------------------------------------------
+       VALIDATION
+    ------------------------------------------------------- */
 
-      case "auth/wrong-password":
-        showError("Incorrect email or password.");
-        break;
+    if (!email) {
 
-      case "auth/too-many-requests":
-        showError(
-          "Too many unsuccessful attempts. Please try again later."
-        );
-        break;
+      showMessage(
+        "Please enter your email address."
+      );
 
-      case "auth/network-request-failed":
-        showError(
-          "Network error. Check your internet connection and try again."
-        );
-        break;
+      emailInput?.focus();
 
-      default:
-        showError(
-          "Unable to sign in right now. Please try again."
-        );
+      return;
     }
 
-    setLoading(false);
+
+    if (!password) {
+
+      showMessage(
+        "Please enter your password."
+      );
+
+      passwordInput?.focus();
+
+      return;
+    }
+
+
+    setLoading(true);
+
+
+    try {
+
+      /* -----------------------------------------------------
+         REMEMBER ME
+      ----------------------------------------------------- */
+
+      await setPersistence(
+        auth,
+        rememberMe?.checked
+          ? browserLocalPersistence
+          : browserSessionPersistence
+      );
+
+
+      /* -----------------------------------------------------
+         SIGN IN
+      ----------------------------------------------------- */
+
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+
+      /* -----------------------------------------------------
+         SUCCESS
+      ----------------------------------------------------- */
+
+      window.location.href =
+        "dashboard.html";
+
+
+    } catch (error) {
+
+      console.error(
+        "Destiny Marketplace login error:",
+        error
+      );
+
+
+      switch (error.code) {
+
+        case "auth/invalid-email":
+
+          showMessage(
+            "Please enter a valid email address."
+          );
+
+          break;
+
+
+        case "auth/user-not-found":
+
+        case "auth/wrong-password":
+
+        case "auth/invalid-credential":
+
+          showMessage(
+            "Incorrect email or password."
+          );
+
+          break;
+
+
+        case "auth/user-disabled":
+
+          showMessage(
+            "This account has been disabled. Please contact support."
+          );
+
+          break;
+
+
+        case "auth/too-many-requests":
+
+          showMessage(
+            "Too many unsuccessful attempts. Please try again later."
+          );
+
+          break;
+
+
+        case "auth/network-request-failed":
+
+          showMessage(
+            "Network error. Please check your internet connection."
+          );
+
+          break;
+
+
+        default:
+
+          showMessage(
+            "Unable to sign in right now. Please try again."
+          );
+
+      }
+
+
+      setLoading(false);
+
+    }
+
   }
-});
+);
