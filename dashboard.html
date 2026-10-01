@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#26352a"
+  >
+
+  <meta
+    name="description"
+    content="Your Destiny Marketplace customer dashboard."
+  >
+
+  <title>Dashboard | Destiny Marketplace</title>
+
+
+  <!-- =====================================================
+       FONTS
+  ====================================================== -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- =====================================================
+       ICONS
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+
+  <!-- =====================================================
+       DASHBOARD STYLES
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="./dashboard.css"
+  >
+
+</head>
+
+
+<body class="dashboard-page">
+
+
+  <!-- =====================================================
+       APP SHELL
+  ====================================================== -->
+
+  <div class="dashboard-shell">
+
+
+    <!-- ===================================================
+         SIDEBAR
+    ==================================================== -->
+
+    <aside
+      class="dashboard-sidebar"
+      id="dashboardSidebar"
+    >
+
+      <div class="sidebar-top">
+
+
+        <!-- BRAND -->
+
+        <a
+          href="index.html"
+          class="dashboard-brand"
+        >
+
+          <span class="brand-mark">
+            D
+          </span>
+
+          <span class="brand-text">
+            Destiny
+            <strong>Marketplace</strong>
+          </span>
+
+        </a>
+
+
+        <!-- CLOSE MOBILE MENU -->
+
+        <button
+          type="button"
+          class="sidebar-close"
+          id="sidebarClose"
+          aria-label="Close navigation"
+        >
+
+          <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <!-- NAVIGATION -->
+
+        <nav
+          class="dashboard-nav"
+          aria-label="Dashboard navigation"
+        >
+
+          <p class="nav-label">
+            Workspace
+          </p>
+
+
+          <a
+            href="dashboard.html"
+            class="nav-item active"
+            aria-current="page"
+          >
+
+            <i class="fa-solid fa-grid-2"></i>
+
+            <span>
+              Overview
+            </span>
+
+          </a>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="shop"
+          >
+
+            <i class="fa-solid fa-bag-shopping"></i>
+
+            <span>
+              Shop
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="orders"
+          >
+
+            <i class="fa-solid fa-box"></i>
+
+            <span>
+              My orders
+            </span>
+
+          </button>
+
+
+          <p class="nav-label nav-label-spaced">
+            Services
+          </p>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="giftcards"
+          >
+
+            <i class="fa-solid fa-gift"></i>
+
+            <span>
+              Gift cards
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="sim"
+          >
+
+            <i class="fa-solid fa-sim-card"></i>
+
+            <span>
+              Germany SIM
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="bitcoin"
+          >
+
+            <i class="fa-brands fa-bitcoin"></i>
+
+            <span>
+              Bitcoin
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="exchange"
+          >
+
+            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+            <span>
+              Gift card exchange
+            </span>
+
+          </button>
+
+
+          <p class="nav-label nav-label-spaced">
+            Account
+          </p>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="profile"
+          >
+
+            <i class="fa-regular fa-user"></i>
+
+            <span>
+              Profile
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="nav-item dashboard-action"
+            data-action="settings"
+          >
+
+            <i class="fa-solid fa-gear"></i>
+
+            <span>
+              Settings
+            </span>
+
+          </button>
+
+        </nav>
+
+      </div>
+
+
+      <!-- SIDEBAR FOOTER -->
+
+      <div class="sidebar-footer">
+
+        <button
+          type="button"
+          class="sidebar-user"
+          id="sidebarUser"
+        >
+
+          <span
+            class="user-avatar"
+            id="sidebarAvatar"
+          >
+            D
+          </span>
+
+          <span class="sidebar-user-copy">
+
+            <strong id="sidebarUserName">
+              Customer
+            </strong>
+
+            <small>
+              Customer account
+            </small>
+
+          </span>
+
+          <i class="fa-solid fa-ellipsis"></i>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="logout-button"
+          id="logoutButton"
+        >
+
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+          <span>
+            Sign out
+          </span>
+
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- ===================================================
+         MOBILE OVERLAY
+    ==================================================== -->
+
+    <div
+      class="sidebar-overlay"
+      id="sidebarOverlay"
+    ></div>
+
+
+    <!-- ===================================================
+         MAIN AREA
+    ==================================================== -->
+
+    <main class="dashboard-main">
+
+
+      <!-- =================================================
+           TOP HEADER
+      ================================================== -->
+
+      <header class="dashboard-header">
+
+
+        <div class="header-left">
+
+          <button
+            type="button"
+            class="mobile-menu-button"
+            id="mobileMenuButton"
+            aria-label="Open navigation"
+          >
+
+            <i class="fa-solid fa-bars"></i>
+
+          </button>
+
+
+          <div>
+
+            <p class="header-eyebrow">
+              Customer dashboard
+            </p>
+
+            <h1>
+              Overview
+            </h1>
+
+          </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+
+          <!-- NOTIFICATIONS -->
+
+          <button
+            type="button"
+            class="header-icon-button dashboard-action"
+            data-action="notifications"
+            aria-label="Notifications"
+          >
+
+            <i class="fa-regular fa-bell"></i>
+
+            <span
+              class="notification-dot"
+              id="notificationDot"
+              hidden
+            ></span>
+
+          </button>
+
+
+          <!-- USER -->
+
+          <div class="header-user">
+
+            <span
+              class="header-avatar"
+              id="headerAvatar"
+            >
+              D
+            </span>
+
+            <div class="header-user-copy">
+
+              <strong id="headerUserName">
+                Customer
+              </strong>
+
+              <span id="headerUserEmail">
+                Loading...
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+      <!-- =================================================
+           CONTENT
+      ================================================== -->
+
+      <div class="dashboard-content">
+
+
+        <!-- =================================================
+             WELCOME
+        ================================================== -->
+
+        <section class="welcome-section">
+
+          <div>
+
+            <p class="section-kicker">
+              Welcome back
+            </p>
+
+            <h2>
+              Hello,
+              <span id="welcomeName">
+                Customer
+              </span>.
+            </h2>
+
+            <p>
+              Manage your marketplace activity, balances,
+              orders and services from one place.
+            </p>
+
+          </div>
+
+
+          <div class="account-status">
+
+            <span class="status-indicator"></span>
+
+            <span>
+              Account verified
+            </span>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             BALANCE CARDS
+        ================================================== -->
+
+        <section class="balance-grid">
+
+
+          <!-- USD -->
+
+          <article class="balance-card balance-primary">
+
+            <div class="balance-card-top">
+
+              <div class="balance-icon">
+
+                <i class="fa-solid fa-dollar-sign"></i>
+
+              </div>
+
+              <span class="balance-label">
+                USD wallet
+              </span>
+
+            </div>
+
+
+            <div class="balance-value">
+              <span>$</span><span id="usdBalance">0.00</span>
+            </div>
+
+
+            <p class="balance-description">
+              Available USD balance
+            </p>
+
+
+            <button
+              type="button"
+              class="balance-link dashboard-action"
+              data-action="funds"
+            >
+
+              Manage funds
+
+              <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+          </article>
+
+
+          <!-- NGN -->
+
+          <article class="balance-card">
+
+            <div class="balance-card-top">
+
+              <div class="balance-icon">
+
+                <i class="fa-solid fa-naira-sign"></i>
+
+              </div>
+
+              <span class="balance-label">
+                NGN wallet
+              </span>
+
+            </div>
+
+
+            <div class="balance-value">
+
+              <span>₦</span>
+
+              <span id="ngnBalance">
+                0.00
+              </span>
+
+            </div>
+
+
+            <p class="balance-description">
+              Available naira balance
+            </p>
+
+
+            <button
+              type="button"
+              class="balance-link dashboard-action"
+              data-action="exchange"
+            >
+
+              Exchange gift cards
+
+              <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+          </article>
+
+        </section>
+
+
+        <!-- =================================================
+             QUICK ACTIONS
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+          <div class="section-heading">
+
+            <div>
+
+              <p class="section-kicker">
+                Marketplace
+              </p>
+
+              <h2>
+                Quick actions
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="quick-action-grid">
+
+
+            <button
+              type="button"
+              class="quick-action dashboard-action"
+              data-action="shop"
+            >
+
+              <span class="quick-action-icon">
+                <i class="fa-solid fa-bag-shopping"></i>
+              </span>
+
+              <span class="quick-action-copy">
+
+                <strong>
+                  Shop marketplace
+                </strong>
+
+                <small>
+                  Browse available products
+                </small>
+
+              </span>
+
+              <i class="fa-solid fa-arrow-right quick-action-arrow"></i>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="quick-action dashboard-action"
+              data-action="giftcards"
+            >
+
+              <span class="quick-action-icon">
+                <i class="fa-solid fa-gift"></i>
+              </span>
+
+              <span class="quick-action-copy">
+
+                <strong>
+                  Gift cards
+                </strong>
+
+                <small>
+                  Buy supported gift cards
+                </small>
+
+              </span>
+
+              <i class="fa-solid fa-arrow-right quick-action-arrow"></i>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="quick-action dashboard-action"
+              data-action="sim"
+            >
+
+              <span class="quick-action-icon">
+                <i class="fa-solid fa-sim-card"></i>
+              </span>
+
+              <span class="quick-action-copy">
+
+                <strong>
+                  Germany SIM
+                </strong>
+
+                <small>
+                  View available SIM cards
+                </small>
+
+              </span>
+
+              <i class="fa-solid fa-arrow-right quick-action-arrow"></i>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="quick-action dashboard-action"
+              data-action="bitcoin"
+            >
+
+              <span class="quick-action-icon">
+                <i class="fa-brands fa-bitcoin"></i>
+              </span>
+
+              <span class="quick-action-copy">
+
+                <strong>
+                  Bitcoin
+                </strong>
+
+                <small>
+                  Access Bitcoin services
+                </small>
+
+              </span>
+
+              <i class="fa-solid fa-arrow-right quick-action-arrow"></i>
+
+            </button>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LOWER GRID
+        ================================================== -->
+
+        <div class="dashboard-lower-grid">
+
+
+          <!-- RECENT ORDERS -->
+
+          <section class="dashboard-panel">
+
+            <div class="panel-header">
+
+              <div>
+
+                <p class="section-kicker">
+                  Activity
+                </p>
+
+                <h2>
+                  Recent orders
+                </h2>
+
+              </div>
+
+
+              <button
+                type="button"
+                class="panel-link dashboard-action"
+                data-action="orders"
+              >
+                View all
+              </button>
+
+            </div>
+
+
+            <div
+              class="empty-state"
+              id="ordersEmptyState"
+            >
+
+              <div class="empty-icon">
+
+                <i class="fa-solid fa-box-open"></i>
+
+              </div>
+
+              <h3>
+                No orders yet
+              </h3>
+
+              <p>
+                Your marketplace orders will appear here
+                after your first purchase.
+              </p>
+
+              <button
+                type="button"
+                class="empty-button dashboard-action"
+                data-action="shop"
+              >
+
+                Start shopping
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+              </button>
+
+            </div>
+
+          </section>
+
+
+          <!-- ACCOUNT -->
+
+          <section class="dashboard-panel">
+
+            <div class="panel-header">
+
+              <div>
+
+                <p class="section-kicker">
+                  Account
+                </p>
+
+                <h2>
+                  Your profile
+                </h2>
+
+              </div>
+
+              <button
+                type="button"
+                class="panel-link dashboard-action"
+                data-action="profile"
+              >
+                Manage
+              </button>
+
+            </div>
+
+
+            <div class="profile-summary">
+
+
+              <div class="profile-summary-avatar">
+                <span id="profileAvatar">
+                  D
+                </span>
+              </div>
+
+
+              <div class="profile-summary-details">
+
+                <strong id="profileName">
+                  Customer
+                </strong>
+
+                <span id="profileEmail">
+                  Loading...
+                </span>
+
+                <span id="profileCountry">
+                  Loading country...
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="profile-status-row">
+
+              <span>
+                Email verification
+              </span>
+
+              <strong class="verified-text">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                Verified
+
+              </strong>
+
+            </div>
+
+
+            <div class="profile-status-row">
+
+              <span>
+                Account type
+              </span>
+
+              <strong id="profileRole">
+                Customer
+              </strong>
+
+            </div>
+
+          </section>
+
+        </div>
+
+
+        <!-- =================================================
+             SERVICE NOTICE
+        ================================================== -->
+
+        <section class="dashboard-notice">
+
+          <div class="notice-icon">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+          </div>
+
+          <div>
+
+            <strong>
+              Your account is protected
+            </strong>
+
+            <p>
+              Keep your login details private. Destiny
+              Marketplace will never ask you to share your
+              password or verification code.
+            </p>
+
+          </div>
+
+        </section>
+
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <!-- =====================================================
+       TOAST
+  ====================================================== -->
+
+  <div
+    class="dashboard-toast"
+    id="dashboardToast"
+    role="status"
+    aria-live="polite"
+  >
+
+    <i class="fa-solid fa-circle-info"></i>
+
+    <span id="toastMessage">
+      This service is coming soon.
+    </span>
+
+  </div>
+
+
+  <!-- =====================================================
+       DASHBOARD SCRIPT
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="./dashboard.js"
+  ></script>
+
+</body>
+
+</html>
