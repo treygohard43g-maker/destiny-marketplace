@@ -1,16 +1,22 @@
+// =========================================================
+// DESTINY MARKETPLACE — LOGIN
+// =========================================================
+
 import { auth } from "./firebase.js";
 
 import {
   signInWithEmailAndPassword,
   setPersistence,
   browserLocalPersistence,
-  browserSessionPersistence
+  browserSessionPersistence,
+  sendEmailVerification,
+  signOut
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
 
-/* =========================================================
-   DESTINY MARKETPLACE — LOGIN
-========================================================= */
+// =========================================================
+// FORM ELEMENTS
+// =========================================================
 
 const loginForm =
   document.getElementById("loginForm");
@@ -31,43 +37,71 @@ const loginMessage =
   document.getElementById("loginMessage");
 
 
-/* =========================================================
-   MESSAGE
-========================================================= */
+// =========================================================
+// URL PARAMETERS
+// =========================================================
+
+const urlParams =
+  new URLSearchParams(window.location.search);
+
+const verificationSent =
+  urlParams.get("verification") === "sent";
+
+
+// =========================================================
+// UI HELPERS
+// =========================================================
 
 function showMessage(message) {
+
   if (!loginMessage) return;
 
-  loginMessage.textContent = message;
+  loginMessage.textContent =
+    message;
+
   loginMessage.classList.add("show");
 }
 
+
 function clearMessage() {
+
   if (!loginMessage) return;
 
   loginMessage.textContent = "";
+
   loginMessage.classList.remove("show");
 }
 
 
-/* =========================================================
-   BUTTON STATE
-========================================================= */
-
 function setLoading(isLoading) {
+
   if (!loginButton) return;
 
-  loginButton.disabled = isLoading;
+  loginButton.disabled =
+    isLoading;
 
-  loginButton.textContent = isLoading
-    ? "Signing in..."
-    : "Sign in";
+  loginButton.textContent =
+    isLoading
+      ? "Signing in..."
+      : "Sign in";
 }
 
 
-/* =========================================================
-   LOGIN
-========================================================= */
+// =========================================================
+// VERIFICATION MESSAGE
+// =========================================================
+
+if (verificationSent) {
+
+  showMessage(
+    "Your account was created. Please check your email and verify your address before signing in."
+  );
+}
+
+
+// =========================================================
+// LOGIN
+// =========================================================
 
 loginForm?.addEventListener(
   "submit",
@@ -78,16 +112,20 @@ loginForm?.addEventListener(
     clearMessage();
 
 
+    // -----------------------------------------------------
+    // Collect form values
+    // -----------------------------------------------------
+
     const email =
-      emailInput?.value.trim() || "";
+      emailInput?.value.trim().toLowerCase() || "";
 
     const password =
       passwordInput?.value || "";
 
 
-    /* -------------------------------------------------------
-       VALIDATION
-    ------------------------------------------------------- */
+    // -----------------------------------------------------
+    // Basic validation
+    // -----------------------------------------------------
 
     if (!email) {
 
@@ -118,9 +156,9 @@ loginForm?.addEventListener(
 
     try {
 
-      /* -----------------------------------------------------
-         REMEMBER ME
-      ----------------------------------------------------- */
+      // ===================================================
+      // 1. SET AUTH PERSISTENCE
+      // ===================================================
 
       await setPersistence(
         auth,
@@ -130,20 +168,67 @@ loginForm?.addEventListener(
       );
 
 
-      /* -----------------------------------------------------
-         SIGN IN
-      ----------------------------------------------------- */
+      // ===================================================
+      // 2. SIGN IN
+      // ===================================================
 
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential =
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
 
 
-      /* -----------------------------------------------------
-         SUCCESS
-      ----------------------------------------------------- */
+      const user =
+        userCredential.user;
+
+
+      // ===================================================
+      // 3. REFRESH USER INFORMATION
+      // ===================================================
+      //
+      // Firebase can cache authentication information.
+      // Reloading ensures emailVerified reflects the
+      // current server state after the user clicks the
+      // verification link.
+      // ===================================================
+
+      await user.reload();
+
+
+      // ===================================================
+      // 4. CHECK EMAIL VERIFICATION
+      // ===================================================
+
+      if (!user.emailVerified) {
+
+        // -------------------------------------------------
+        // Sign the user out so an unverified account does
+        // not remain authenticated in the browser.
+        // -------------------------------------------------
+
+        await signOut(auth);
+
+
+        // -------------------------------------------------
+        // Tell the customer exactly what to do.
+        // -------------------------------------------------
+
+        showMessage(
+          "Your email address has not been verified yet. Please check your inbox and verify your email before signing in."
+        );
+
+
+        setLoading(false);
+
+        return;
+      }
+
+
+      // ===================================================
+      // 5. VERIFIED USER — OPEN DASHBOARD
+      // ===================================================
 
       window.location.href =
         "dashboard.html";
@@ -156,6 +241,10 @@ loginForm?.addEventListener(
         error
       );
 
+
+      // ===================================================
+      // FIREBASE ERROR HANDLING
+      // ===================================================
 
       switch (error.code) {
 
@@ -213,13 +302,10 @@ loginForm?.addEventListener(
           showMessage(
             "Unable to sign in right now. Please try again."
           );
-
       }
 
 
       setLoading(false);
-
     }
-
   }
 );
